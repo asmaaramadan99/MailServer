@@ -2,34 +2,90 @@ package Classes;
 
 public class PriorityQueue implements IPriorityQueue{
 
+	int size;
+	
+	public class Node {
+		Object element;
+		Node next;
+		int key;
+	}
+	
+	Node head;
+	Node tail;
+	
 	@Override
 	public void insert(Object item, int key) {
-		// TODO Auto-generated method stub
-		
+		if (key <= 0) {
+			throw new RuntimeException("Invalid key");
+		}
+		Node x = new Node();
+		x.key = key;
+		x.element=item;
+		if(size()==0) {
+			head=tail=x;
+			x.next=null;
+		}
+		else if(size()==1) {
+			if(head.key<x.key) {
+				tail=x;
+				head.next=x;
+				x.next=null;
+			}
+			else {
+				tail=head;
+				x.next=head;
+				head=x;
+			}
+		}
+		else {
+			if (x.key < head.key) {
+				x.next=head;
+				head=x;
+			}
+			else if(x.key>tail.key) {
+				tail.next=x;
+				tail=x;
+				tail.next=null;
+			}
+			else {
+				while (head.key <= x.key && head.next != null) {
+					if (head.next.key > x.key) {
+						break;
+					}
+					head = head.next;
+				}
+				x.next = head.next;
+				head.next = x;
+			}
+		}
+		size++;
 	}
 
 	@Override
 	public Object removeMin() {
-		// TODO Auto-generated method stub
-		return null;
+		if(isEmpty())
+			throw new RuntimeException("Empty queue");
+		Object min=head.element;
+		head=head.next;
+		size--;
+		return min;
 	}
 
 	@Override
 	public Object min() {
-		// TODO Auto-generated method stub
-		return null;
+		if(isEmpty())
+			throw new RuntimeException("Empty queue");
+		return head.element;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size()==0;
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 }
