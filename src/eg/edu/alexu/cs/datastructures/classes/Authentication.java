@@ -26,7 +26,7 @@ public class Authentication {
 	//for sign in
 	Authentication(String SystemUsersInfoPath,String email,String password)
 	{
-		this.SystemUsersInfoPath=SystemUsersInfoPath;
+		this.SystemUsersInfoPath=SystemUsersInfoPath; 
 		this.contact= new Contact(email,password);
 	}
 	 /*checks if an email exists
