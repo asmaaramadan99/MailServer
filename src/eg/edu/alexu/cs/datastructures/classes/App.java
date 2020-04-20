@@ -3,17 +3,21 @@ package eg.edu.alexu.cs.datastructures.classes;
 import MyDataStructures.*;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 
 public class App implements IApp {
 	
 	protected static String rootPath;
 	protected static String accountsFolderPath;
+	protected static String SystemUsersPath;
 	IFolder currentFolder;
 	IFilter currentFilter;
 	ISort currentSort;
 	
 	
-	App(){
+	App() {
 		
 		// generate file if it doesn't exist
 		if(rootPath == null) {
@@ -21,20 +25,70 @@ public class App implements IApp {
 			accountsFolderPath = rootPath + File.separator + "accounts";
 			File rootFolder = new File(accountsFolderPath);
 			rootFolder.mkdirs();
+			createSystemUserFile();
+			
+		
+			 
 			
 		}
 	}
 	
+	public void createSystemUserFile()
+	{  
+		File SystemUsers=new File(rootPath,"SystemUsersInfo.bin");
+		try {
+			SystemUsers.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		   SystemUsersPath=SystemUsers.getAbsolutePath();
+		
+	}
+	
 	@Override
 	public boolean signin(String email, String password) {
-		// TODO Auto-generated method stub
-		return false;
+		Contact contact=new Contact(email,password);
+		boolean exist=false;
+		Authentication authenticate=new Authentication(SystemUsersPath,contact);
+		
+		try {
+			exist=authenticate.exist(contact);
+		} catch (ClassNotFoundException | FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return exist&&authenticate.matchPass?true:false;
+	 
+	  
 	}
 
 	@Override
 	public boolean signup(IContact contact) {
+		  
+		  Authentication authenticate=new Authentication(SystemUsersPath,contact);
+		  File f=new File(SystemUsersPath);
+		  boolean exist = false;
+		  if(f.length()==0) {
+		  authenticate.addNewUser(true);
+		  return true;
+		  }
+		  else {
+	      try {
+	  		exist= authenticate.exist((Contact) contact);
+	  	} catch (ClassNotFoundException | FileNotFoundException e) {
+	  		// TODO Auto-generated catch block
+	  		e.printStackTrace();
+	  	}
+	      if(!exist)
+	    	  authenticate.addNewUser(false);
+		  
+		  }
+		  return exist?false:true;
 		
-		return false;
+		
 	}
 
 	@Override
