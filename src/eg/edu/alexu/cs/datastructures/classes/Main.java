@@ -1,5 +1,4 @@
 package eg.edu.alexu.cs.datastructures.classes;
-
 import MyDataStructures.*;
 import java.io.File;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
@@ -10,6 +9,13 @@ public class Main {
 		
 		App app = new App();
 		User asmaa = new User("Asmaa", "Asmaa@mail.com", "somePassword");
+		Contact c=new Contact("asmma@gmail.com","asmaa");
+		//System.out.print(app.signup(c));
+		//System.out.println(app.signin("asmma@gmail.com", "asmaa"));
+		System.out.print(app.signup(c));
+		 
+		
+		
 		
 	}
 	
@@ -26,7 +32,7 @@ public class Main {
 		folder = new File("C:\\Users\\Moaz\\Desktop\\Test");
 		String[] files = folder.list();
 		for(String f: files) {
-			System.out.println(folder.getAbsolutePath() + files.separator + f);
+			System.out.println(folder.getAbsolutePath() + File.separator + f);
 			
 		}
 		
