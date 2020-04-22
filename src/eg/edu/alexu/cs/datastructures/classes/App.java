@@ -4,6 +4,9 @@ import MyDataStructures.*;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
 import java.io.File;
 import java.io.Serializable;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 
 public class App implements IApp, Serializable {
 	
@@ -15,6 +18,7 @@ public class App implements IApp, Serializable {
 	protected static String rootPath;
 	protected static String accountsFolderPath;
 	User currentUser;
+	protected static String SystemUsersPath;
 	IFolder currentFolder;
 	IFilter currentFilter;
 	ISort currentSort;
@@ -28,19 +32,68 @@ public class App implements IApp, Serializable {
 		if(accountsFolder.exists() == false)
 			accountsFolder.mkdirs();	
 		
+		createSystemUserFile();		
+		
+	}
+	
+	public void createSystemUserFile()
+	{  
+		File SystemUsers=new File(rootPath,"SystemUsersInfo.bin");
+		try {
+			SystemUsers.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		   SystemUsersPath=SystemUsers.getAbsolutePath();
 		
 	}
 	
 	@Override
 	public boolean signin(String email, String password) {
-		// TODO Auto-generated method stub
-		return false;
+	
+		// TODO: uplaod contact library
+		Contact contact=new Contact(email,password);
+		boolean exist=false;
+		Authentication authenticate=new Authentication(SystemUsersPath,contact);
+		
+		try {
+			exist=authenticate.exist(contact);
+		} catch (ClassNotFoundException | FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return exist&&authenticate.matchPass?true:false;
+	 
+	  
 	}
 
 	@Override
 	public boolean signup(IContact contact) {
+		  
+		  Authentication authenticate=new Authentication(SystemUsersPath,contact);
+		  File f=new File(SystemUsersPath);
+		  boolean exist = false;
+		  if(f.length()==0) {
+		  authenticate.addNewUser(true);
+		  return true;
+		  }
+		  else {
+	      try {
+	  		exist= authenticate.exist((Contact) contact);
+	  	} catch (ClassNotFoundException | FileNotFoundException e) {
+	  		// TODO Auto-generated catch block
+	  		e.printStackTrace();
+	  	}
+	      if(!exist)
+	    	  authenticate.addNewUser(false);
+		  
+		  }
+		  return exist?false:true;
 		
-		return false;
+		
 	}
 
 	@Override

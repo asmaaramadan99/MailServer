@@ -9,18 +9,28 @@ class Main {
 	public static void main(String args[]) {
 	  	
 		App app = new App();
-		User Moaz = new User("Moaz", "moaz@mail.com", "somePassword");
+
+		/*User Moaz = new User("Moaz", "moaz@mail.com", "somePassword");
 		Moaz.createNewFolder("work");
 		UserInnerFolder work = Moaz.getFolder("work");
 		Mail mail1 = new Mail("Some Subject", "assa@asd.com", "Some Text#s", 4, null);
 		work.createEmail(mail1);
 		//work.DeleteEmail(mail1);
 		System.out.println(mail1.path);
-	
+	*/
 	/*
 		File folder = new File("C:\\Users\\Moaz\\Desktop\\Java DT Porject\\Assignment 8\\MailServer\\root");
 		FileManager.deleteDir(folder);
 		*/
+
+		/*
+		User asmaa = new User("Asmaa", "Asmaa@mail.com", "somePassword");
+		Contact c=new Contact("asmma@gmail.com","asmaa");
+		//System.out.print(app.signup(c));
+		//System.out.println(app.signin("asmma@gmail.com", "asmaa"));
+		System.out.print(app.signup(c));
+		 */
+		
 		
 	}
 	
