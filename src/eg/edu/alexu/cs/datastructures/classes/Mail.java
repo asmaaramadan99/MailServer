@@ -45,13 +45,10 @@ class Mail implements IMail, Serializable {
 			this.attachmentsPaths = new SinglyLinkedList();
 	}
 	
-	
 	void createMailFolder(String path) {
 	}
 	
 	void createBodyTextFile() {
-		
-		
 	}
 	
 	void addAttachment(String attachmentOriginalPath) {
