@@ -8,12 +8,8 @@ public class AppTest {
 
 	@Test
 	public void testUsers() {
-		App app = new App();
-		a
-	}
-	
-	public void testFolders() {
 		
 	}
-
+	
+	
 }

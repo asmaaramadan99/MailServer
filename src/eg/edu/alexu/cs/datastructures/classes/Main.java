@@ -18,18 +18,18 @@ class Main {
 		//work.DeleteEmail(mail1);
 		System.out.println(mail1.path);
 	*/
-	/*
+		/*
 		File folder = new File("C:\\Users\\Moaz\\Desktop\\Java DT Porject\\Assignment 8\\MailServer\\root");
 		FileManager.deleteDir(folder);
 		*/
 
-		/*
+		
 		User asmaa = new User("Asmaa", "Asmaa@mail.com", "somePassword");
 		Contact c=new Contact("asmma@gmail.com","asmaa");
-		//System.out.print(app.signup(c));
-		//System.out.println(app.signin("asmma@gmail.com", "asmaa"));
 		System.out.print(app.signup(c));
-		 */
+		System.out.println(app.signin("asmma@gmail.com", "asmaa"));
+		System.out.print(app.signup(c));
+		 
 		
 		
 	}

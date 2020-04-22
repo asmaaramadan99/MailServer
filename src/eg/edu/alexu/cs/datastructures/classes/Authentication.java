@@ -10,24 +10,24 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import eg.edu.alexu.cs.datastructures.Interfaces.IContact;
 
-
 public class Authentication {
-	
+
+
 	protected String SystemUsersInfoPath;
 	private IContact contact;
 	boolean matchPass=false;
-	
+
 	//for sign up
 	Authentication(String SystemUsersInfoPath,IContact contact )
 	{
 		this.SystemUsersInfoPath=SystemUsersInfoPath;
 		this.contact=contact;
-		
+
 	}
 	//for sign in
 	Authentication(String SystemUsersInfoPath,String email,String password)
 	{
-		this.SystemUsersInfoPath=SystemUsersInfoPath; 
+		this.SystemUsersInfoPath=SystemUsersInfoPath;
 		this.contact= new Contact(email,password);
 	}
 	 /*checks if an email exists
@@ -56,11 +56,11 @@ public class Authentication {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-					
+
 		return false;
-		
+
 	    }
-	 
+
 	 public boolean isValidEmailFormat()
 	 {  
 	     Contact user=(Contact) contact;
@@ -75,7 +75,7 @@ public class Authentication {
 		if(isValidEmailFormat()) {
 		if(first) {
 		 try {
-			 
+
 			ObjectOutputStream write= new ObjectOutputStream(new FileOutputStream(SystemUsersInfoPath));
 			write.writeObject(contact);
 			write.close();
@@ -91,7 +91,7 @@ public class Authentication {
 			        reset();
 			    }
 			};
-			
+
 			os2.writeObject(contact);
 			os2.close();
 		} catch (IOException e) {

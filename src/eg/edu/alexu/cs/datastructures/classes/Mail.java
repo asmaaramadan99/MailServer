@@ -57,7 +57,6 @@ class Mail implements IMail, Serializable {
 	void addAllAttachments() {
 	}
 	
-	
 	void remove() {
 	}
 	
