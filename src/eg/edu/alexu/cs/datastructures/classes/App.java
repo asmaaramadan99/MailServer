@@ -3,26 +3,32 @@ package eg.edu.alexu.cs.datastructures.classes;
 import MyDataStructures.*;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
 import java.io.File;
+import java.io.Serializable;
 
-public class App implements IApp {
+public class App implements IApp, Serializable {
 	
+	/**
+	 * 
+	 */
+	
+	private static final long serialVersionUID = 1L;
 	protected static String rootPath;
 	protected static String accountsFolderPath;
+	User currentUser;
 	IFolder currentFolder;
 	IFilter currentFilter;
 	ISort currentSort;
 	
 	
-	App(){
+	public App(){
 		
-		// generate file if it doesn't exist
-		if(rootPath == null) {
-			rootPath = System.getProperty("user.dir")+ File.separator + "root"; 
-			accountsFolderPath = rootPath + File.separator + "accounts";
-			File rootFolder = new File(accountsFolderPath);
-			rootFolder.mkdirs();
-			
-		}
+		rootPath = System.getProperty("user.dir")+ File.separator + "root"; 
+		accountsFolderPath = rootPath + File.separator + "accounts";
+		File accountsFolder = new File(accountsFolderPath);
+		if(accountsFolder.exists() == false)
+			accountsFolder.mkdirs();	
+		
+		
 	}
 	
 	@Override
@@ -47,6 +53,12 @@ public class App implements IApp {
 
 	@Override
 	public IMail[] listEmails(int page) {
+		
+		/// 1- get indexFilePath from currentUser >> user.indexFilePath(Folder.folderName);
+		/// 2- read the data 
+		/// 3- apply the needed filters and sorts
+		/// 4- send the emails
+		
 		
 		return null;
 	}

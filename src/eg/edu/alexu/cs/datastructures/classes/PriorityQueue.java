@@ -3,7 +3,7 @@ package eg.edu.alexu.cs.datastructures.classes;
 import MyDataStructures.*;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
 
-public class PriorityQueue implements IPriorityQueue{
+class PriorityQueue implements IPriorityQueue{
 
 	@Override
 	public void insert(Object item, int key) {
