@@ -47,56 +47,21 @@ class Mail implements IMail, Serializable {
 	
 	
 	void createMailFolder(String path) {
-		this.path = path;
-		this.ID = new File(this.path).getName(); 
-		File mailFolder = new File(this.path);
-		mailFolder.mkdir();
-		this.createBodyTextFile();
-		this.addAllAttachments();
 	}
 	
 	void createBodyTextFile() {
-		String bodyPath = this.path + File.separator + "body.txt";
-		try{
-			BufferedOutputStream bufferedOutput = new BufferedOutputStream(
-					new FileOutputStream(bodyPath));
-		    bufferedOutput.write(bodyText.getBytes());    
-		    bufferedOutput.close();	
-		} catch (IOException e) {
-		    // Exception handling
-			
-			// TO DO
-		}
+		
 		
 	}
 	
 	void addAttachment(String attachmentOriginalPath) {
-		File source = new File(attachmentOriginalPath); 
-        File dest = new File(this.path + File.separator + source.getName());
-        
-        try {
-			Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	void addAllAttachments() {
-		if(attachmentsPaths == null)
-			return;
-		
-		SinglyLinkedList.Node node = attachmentsPaths.head;
-		while(node != attachmentsPaths.nullNode) {
-			addAttachment((String)node.value);
-			node = node.next;
-		}
 	}
 	
 	
 	void remove() {
-		File mailFolder = new File(this.path);
-		FileManager.deleteDir(mailFolder);
 	}
 	
 	
