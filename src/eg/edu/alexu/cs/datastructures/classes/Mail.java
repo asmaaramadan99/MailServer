@@ -46,19 +46,7 @@ public class Mail implements IMail {
 	}
 	
 	void createMailFile() {
-		File mailFolder = new File(this.folderPath + File.pathSeparator + this.ID);
-		mailFolder.mkdir();
-		String bodyPath = mailFolder.getAbsolutePath() + File.separator + "body.txt";
 		
-		try{
-			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(bodyPath));
-		    bufferedWriter.write(this.bodyText);
-		    bufferedWriter.close();
-		} catch (IOException e) {
-		    // Exception handling
-			
-			// TO DO
-		}
 		
 		
 	}
