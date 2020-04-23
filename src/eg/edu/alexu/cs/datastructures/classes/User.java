@@ -3,6 +3,7 @@ package eg.edu.alexu.cs.datastructures.classes;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 
 import eg.edu.alexu.csd.datastructure.*;
@@ -10,7 +11,7 @@ import eg.edu.alexu.cs.datastructures.Interfaces.*;
 
 
 
-class User implements IUser, Serializable {
+ public class User extends myContact implements IUser, Serializable {
 	
 	
 	/*
@@ -25,18 +26,23 @@ class User implements IUser, Serializable {
 	SinglyLinkedList emails = new SinglyLinkedList();
 	SinglyLinkedList innerFolders = new SinglyLinkedList();
 	SinglyLinkedList userFoldersPaths = new SinglyLinkedList();
+	SinglyLinkedList myContacts=new SinglyLinkedList();
 	// should be changed to contact
 	
+	
 	// TODO: encrypt stored passwords
-	User(String name, String email, String password) {
+	   User(String name, String email, String password) {
 		
 		// TODO: check proper format
+		super();
 		this.name = name;
 		this.emails.add(email);
 		this.password = password;
 		
 		store();
 	}
+	  
+	
 	
 	void store(){
 		makeInitialFiles();
@@ -56,10 +62,35 @@ class User implements IUser, Serializable {
 		for (int i = 0; i < innerFoldersName.length; i++) {
 			createNewFolder(innerFoldersName[i]);
 		}
+		/*
+		 * @asmaa 
+		 * added a file for user's contacts
+		 */
 		
+		
+		File myContacts=new File(userFolderPath+File.separator+"myContacts.bin");
+		try {
+			myContacts.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+					
+	}
+	//save contacts to myContactsFile
+	public void saveContacts()
+	{
+		FileManager.writeToFile(myContacts, userFolderPath+File.separator+"myContacts.bin");
+	}
+	//load Contacts
+	SinglyLinkedList loadContacts()
+	{
+		SinglyLinkedList  l=(SinglyLinkedList) FileManager.getFile(userFolderPath+File.separator+"myContacts.bin");
+		return l;
 	}
 	
-	void createNewFolder(String folderName) {
+	public void createNewFolder(String folderName) {
 		UserInnerFolder tmp = new UserInnerFolder(this, folderName);
 		this.innerFolders.add( tmp );
 	}
@@ -79,7 +110,7 @@ class User implements IUser, Serializable {
 	}
 
 	 boolean isValidEmail(String email){
-		String emailRegex = "^[\\\\w!#$%&’*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}$";
+		String emailRegex = "^[\\\\w!#$%&â€™*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&â€™*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}$";
 	    return email.matches(emailRegex);
 	 }
 	 
@@ -98,3 +129,4 @@ class User implements IUser, Serializable {
 	
 	
 }
+
