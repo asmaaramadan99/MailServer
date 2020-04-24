@@ -78,6 +78,13 @@ import eg.edu.alexu.cs.datastructures.Interfaces.*;
 		
 					
 	}
+	
+	void addContact(Contact contact) {
+		this.myContacts.add(contact);
+		writeUserToFile();
+		saveContacts();
+	}
+	
 	//save contacts to myContactsFile
 	public void saveContacts()
 	{
@@ -87,6 +94,9 @@ import eg.edu.alexu.cs.datastructures.Interfaces.*;
 	SinglyLinkedList loadContacts()
 	{
 		SinglyLinkedList  l=(SinglyLinkedList) FileManager.getFile(userFolderPath+File.separator+"myContacts.bin");
+		/*
+		*	or return this.myContacts
+		*/
 		return l;
 	}
 	
