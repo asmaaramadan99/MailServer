@@ -78,13 +78,6 @@ import eg.edu.alexu.cs.datastructures.Interfaces.*;
 		
 					
 	}
-	
-	void addContact(Contact contact) {
-		this.myContacts.add(contact);
-		writeUserToFile();
-		saveContacts();
-	}
-	
 	//save contacts to myContactsFile
 	public void saveContacts()
 	{
