@@ -3,6 +3,7 @@ package eg.edu.alexu.cs.datastructures.classes;
 import  eg.edu.alexu.csd.datastructure.*;
 import java.io.File;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
+import java.time.LocalDate;
 
 class Main {
 
@@ -115,4 +116,52 @@ class Main {
 		arr.printAll();
 		
 	}
+	
+	
+	//priority queue test
+	PriorityQueue q=new PriorityQueue();
+		q.insert(5,2);
+		q.insert(6,1);
+		System.out.println(q.removeMin());
+		System.out.println(q.size());
+		
+	
+	
+	//sorting test
+		SinglyLinkedList mails = new SinglyLinkedList();
+		
+		Mail mail1=new Mail("c", "mariam@gmail.com",  "l",3 , null);
+		Mail mail2=new Mail("a", "zaitoun@gmail.com",  "o",1 , null);
+		Mail mail3=new Mail("b", "asmaa@gmail.com",  "a",2, null);
+
+	   
+		mail1.date=LocalDate.now().plusDays(2);
+		mail2.date=LocalDate.now().plusDays(1);
+		mail3.date=LocalDate.now().plusDays(3);
+
+
+
+	    mails.add(mail1);
+	    mails.add(mail2);
+	    mails.add(mail3); 
+	    
+	    Sort.iterativeQuickSort(mails,"Default");
+	    Sort.iterativeQuickSort(mails,"Subject");
+	    Sort.iterativeQuickSort(mails,"Sender");
+	    Sort.iterativeQuickSort(mails,"Body");
+
+	 
+	   for (int i=0;i<mails.size();i++) {
+	    	Mail m=(Mail) mails.get(i);
+	    	//System.out.println(m.date);
+	        //System.out.println(m.subject);
+	        //System.out.println(m.subject);
+            System.out.println(m.bodyText);
+
+	    }
+	  
+	}
+		
+}
+
 }
