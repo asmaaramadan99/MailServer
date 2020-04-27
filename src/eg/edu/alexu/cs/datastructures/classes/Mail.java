@@ -7,6 +7,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
+import java.time.LocalDate;
+
 
 class Mail implements IMail, Serializable {
 	
@@ -29,7 +31,8 @@ class Mail implements IMail, Serializable {
 	Integer priority;
 	Boolean read;
 	SinglyLinkedList attachmentsPaths;// maybe use a wrapper array;
-	
+	LocalDate date;
+
 	
 	
 	Mail(String subject, String senderEmail, String bodyText, int priority, SinglyLinkedList attachmentsPaths){
@@ -38,6 +41,8 @@ class Mail implements IMail, Serializable {
 		this.priority = priority;
 		this.bodyText = bodyText;
 		this.priority = priority;
+		this.date=LocalDate.now();
+
 		if(attachmentsPaths == null)
 			this.attachmentsPaths = attachmentsPaths;
 		
