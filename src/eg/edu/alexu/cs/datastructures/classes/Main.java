@@ -4,19 +4,27 @@ import  eg.edu.alexu.csd.datastructure.*;
 import java.io.File;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
 import java.time.LocalDate;
+import java.util.UUID;
 
-class Main {
+public class Main {
 
 	public static void main(String args[]) {
 	  	
-		App app = new App();
+		App a = new App();
+		File[] list = new File(a.rootPath).listFiles();
+		
+		for(File name: list) {
+			System.out.println(name.getName());
+		}
+		
+		//App app = new App();
 		/*//System.out.print(app.signin("asmaa@gmail.com", "hello"));
 		Contact c=new Contact("asmma@gmail.com","asmaa");
 		Contact m=new Contact("asmm@gmail.com","asmaa");
 		System.out.print(app.signup(c));
 		System.out.print(app.signup(m));*/
 		
-        User asmaa=new User("asmaa","asmaa99@yahoo.com","asmaa");
+    //    User asmaa=new User("asmaa","asmaa99@yahoo.com","asmaa");
         
       /*  		
 		User Moaz = new User("Moaz", "moaz@mail.com", "somePassword");
@@ -29,7 +37,7 @@ class Main {
 		Moaz.writeUserToFile();
 		*/
         
-        myContact c=new myContact("mariam","mariam@gmail.com");
+        /*myContact c=new myContact("mariam","mariam@gmail.com");
         asmaa.addContact(asmaa.myContacts,c);
         asmaa.saveContacts();
         asmaa.myContacts=asmaa.loadContacts();
@@ -47,15 +55,7 @@ class Main {
         asmaa.myContacts=null;
         asmaa.myContacts=asmaa.loadContacts();
         System.out.println(asmaa.myContacts.size());
-        
-        
-		
-		
-
-	
-	
-		
-		
+        */
 		
 		//System.out.print(m.name);
 		
@@ -68,7 +68,7 @@ class Main {
 		//System.out.print(l.head.value);
 	
 	
-		File folder = new File("C:\\Users\\Moaz\\Desktop\\Java DT Porject\\Assignment 8\\MailServer\\root");
+		//File folder = new File("C:\\Users\\Moaz\\Desktop\\Java DT Porject\\Assignment 8\\MailServer\\root");
 		//FileManager.deleteDir(folder);
 		
 
@@ -117,7 +117,7 @@ class Main {
 		
 	}
 	
-	
+	/*
 	//priority queue test
 	PriorityQueue q=new PriorityQueue();
 		q.insert(5,2);
@@ -161,7 +161,6 @@ class Main {
 	    }
 	  
 	}
-		
-}
+*/
 
 }

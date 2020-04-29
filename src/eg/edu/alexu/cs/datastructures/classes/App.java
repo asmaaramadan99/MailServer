@@ -17,6 +17,7 @@ public class App implements IApp, Serializable {
 	private static final long serialVersionUID = 1L;
 	protected static String rootPath;
 	protected static String accountsFolderPath;
+	public static String attachmentsFolderPath;
 	User currentUser;
 	protected static String SystemUsersPath;
 	IFolder currentFolder;
@@ -24,14 +25,25 @@ public class App implements IApp, Serializable {
 	ISort currentSort;
 	
 	
-	public App(){
-		
+	void setInitialFoldersPaths() {
 		rootPath = System.getProperty("user.dir")+ File.separator + "root"; 
 		accountsFolderPath = rootPath + File.separator + "accounts";
-		File accountsFolder = new File(accountsFolderPath);
-		if(accountsFolder.exists() == false)
-			accountsFolder.mkdirs();	
+		attachmentsFolderPath =  rootPath + File.separator + "attachments";
 		
+	}
+	
+	void createInitialFolders() {
+		File accountsFolder = new File(accountsFolderPath);
+		File attachmentsFolder = new File(attachmentsFolderPath);
+		accountsFolder.mkdirs();
+		attachmentsFolder.mkdirs();
+	}
+	
+	public App(){
+		
+		setInitialFoldersPaths();
+		// no errors will occur if the folders already exist
+		createInitialFolders(); 
 		createSystemUserFile();		
 		
 	}
@@ -45,7 +57,7 @@ public class App implements IApp, Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		   SystemUsersPath=SystemUsers.getAbsolutePath();
+		SystemUsersPath=SystemUsers.getAbsolutePath();
 		
 	}
 	

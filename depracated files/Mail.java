@@ -71,15 +71,7 @@ class Mail implements IMail, Serializable {
 	}
 	
 	void addAttachment(String attachmentOriginalPath) {
-		File source = new File(attachmentOriginalPath); 
-        File dest = new File(this.path + File.separator + source.getName());
-        
-        try {
-			Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 	
 	void addAllAttachments() {
