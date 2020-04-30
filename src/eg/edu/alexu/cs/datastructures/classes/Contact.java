@@ -71,19 +71,4 @@ public class Contact implements IContact,Serializable{
 	   return userPath;
    }
 	
-
- 
-  public void createFolder() throws IOException {
-	File folder = new File(this.getUserPath());
-	folder.mkdir();
-	File userInfo=new File(this.getUserPath()+File.separator+"userInfo.bin");
-	userInfo.createNewFile();
-	    for (Folders f : Folders.values()) {   
-	    	File file=new File(this.getUserPath()+File.separator+f.toString());
-	    	file.mkdir();
-	    	File index=new File(file.getAbsoluteFile()+File.separator+"index.txt");
-	    	index.createNewFile();
-	    	
-	    }		
-    }
 }

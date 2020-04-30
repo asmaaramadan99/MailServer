@@ -60,7 +60,7 @@ public class App implements IApp, Serializable {
 		
 	}
 	
-		@Override
+	@Override
 	public boolean signin(final String email, final String password) {
 
 		// TODO: uplaod contact library
@@ -100,7 +100,7 @@ public class App implements IApp, Serializable {
 			authenticate.addNewUser(true);
 			contact.setUserPath();
 			try {
-				contact.createFolder();
+				
 				new User((Contact)contact);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -120,7 +120,7 @@ public class App implements IApp, Serializable {
 				authenticate.addNewUser(false);
 			contact.setUserPath();
 			try {
-				contact.createFolder();
+				
 				new User((Contact) contact);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -129,6 +129,9 @@ public class App implements IApp, Serializable {
 
 		}
 		return exist?false:true;
+
+
+	}
 
 
 	}	@Override

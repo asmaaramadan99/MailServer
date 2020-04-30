@@ -1,4 +1,4 @@
-package eg.edu.alexu.cs.datastructures.classes;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -7,9 +7,9 @@ import eg.edu.alexu.cs.datastructures.Interfaces.*;
 
 public class User implements IUser, Serializable {
 
-	/*
-	 * u should use writeUserToFile method after any updates to the user
-	 */
+	enum Folders {
+		Inbox, Sent, Drafts, Trash
+	}
 
 	private static final long serialVersionUID = 1L;
 	Contact user;
@@ -17,11 +17,32 @@ public class User implements IUser, Serializable {
 	SinglyLinkedList myContacts = new SinglyLinkedList();
 
 	// TODO: encrypt stored passwords
-	public User(Contact user) {
+	User(Contact user) {
 		this.user = user;
 		this.emails.add(user.getEmail());
+		try {
+			this.createFolder();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		writeUserToFile();
 	}
+
+	public void createFolder() throws IOException {
+		File folder = new File(this.user.getUserPath());
+		folder.mkdir();
+		File userInfo = new File(this.user.getUserPath() + File.separator + "userInfo.bin");
+		userInfo.createNewFile();
+		for (Folders f : Folders.values()) {
+			File file = new File(this.user.getUserPath() + File.separator + f.toString());
+			file.mkdir();
+			File index = new File(file.getAbsoluteFile() + File.separator + "index.txt");
+			index.createNewFile();
+
+		}
+	}
+
 
 	void writeUserToFile() {
 		String userInfoFilePath = this.user.getUserPath() + File.separator + "userInfo.bin";
