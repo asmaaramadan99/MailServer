@@ -1,3 +1,17 @@
+package eg.edu.alexu.cs.datastructures.classes;
+import java.io.EOFException;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import eg.edu.alexu.cs.datastructures.Interfaces.IContact;
+
+
 public class Authentication {
 	
 	protected String SystemUsersInfoPath;
@@ -103,3 +117,4 @@ public class Authentication {
 		
 		}			 	
 	 }	
+     
