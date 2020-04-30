@@ -1,5 +1,4 @@
 package eg.edu.alexu.cs.datastructures.classes;
-
 import MyDataStructures.*;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
 import java.io.File;
@@ -61,54 +60,78 @@ public class App implements IApp, Serializable {
 		
 	}
 	
-	@Override
-	public boolean signin(String email, String password) {
-	
+		@Override
+	public boolean signin(final String email, final String password) {
+
 		// TODO: uplaod contact library
-		Contact contact=new Contact(email,password);
+
 		boolean exist=false;
-		Authentication authenticate=new Authentication(SystemUsersPath,contact);
-		
+		Authentication authenticate=new Authentication(SystemUsersPath,email,password);
+
+
 		try {
-			exist=authenticate.exist(contact);
-		} catch (ClassNotFoundException | FileNotFoundException e) {
+			exist=authenticate.exist();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+		if(exist&&authenticate.matchPass)
+		{   Contact c=authenticate.getCurrentUser();
+		//System.out.println(c.getUserPath());
+		this.currentUser=(User) FileManager.getFile(c.getUserPath()+File.separator+"userInfo.bin");
+		}
+
+
 		return exist&&authenticate.matchPass?true:false;
-	 
-	  
+
 	}
 
-	@Override
-	public boolean signup(IContact contact) {
-		  
-		  Authentication authenticate=new Authentication(SystemUsersPath,contact);
-		  File f=new File(SystemUsersPath);
-		  boolean exist = false;
-		  if(f.length()==0) {
-		  authenticate.addNewUser(true);
-		  return true;
-		  }
-		  else {
-	      try {
-	  		exist= authenticate.exist((Contact) contact);
-	  	} catch (ClassNotFoundException | FileNotFoundException e) {
-	  		// TODO Auto-generated catch block
-	  		e.printStackTrace();
-	  	}
-	      if(!exist)
-	    	  authenticate.addNewUser(false);
-		  
-		  }
-		  return exist?false:true;
-		
-		
-	}
+
 
 	@Override
+	public boolean signup(final IContact contact) {
+
+		Authentication authenticate=new Authentication(SystemUsersPath,contact);
+		if(!authenticate.isValidEmailFormat())
+			return false;
+		File f=new File(SystemUsersPath);
+		boolean exist = false;
+		if(f.length()==0) {
+			authenticate.addNewUser(true);
+			contact.setUserPath();
+			try {
+				contact.createFolder();
+				new User((Contact)contact);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return true;
+		}
+		else {
+			try {
+				exist= authenticate.exist();
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(!exist)
+				authenticate.addNewUser(false);
+			contact.setUserPath();
+			try {
+				contact.createFolder();
+				new User((Contact) contact);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		return exist?false:true;
+
+
+	}	@Override
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
 		this.currentFolder = folder;
 		this.currentFilter = filter;
