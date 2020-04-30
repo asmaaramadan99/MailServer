@@ -20,10 +20,6 @@ public class User implements IUser, Serializable {
 	public User(Contact user) {
 		this.user = user;
 		this.emails.add(user.getEmail());
-		store();
-	}
-
-	public void store() {
 		writeUserToFile();
 	}
 
@@ -32,23 +28,9 @@ public class User implements IUser, Serializable {
 		FileManager.writeToFile(this, userInfoFilePath);
 	}
 
-	void addAnEmailToUser(String email) {
-		if (!isValidEmail(email))
-			return;
-
-		this.emails.add(email);
-		writeUserToFile();
-	}
-
-	boolean isValidEmail(String email) {
-		String emailRegex = "^[\\\\w!#$%&’*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}$";
-		return email.matches(emailRegex);
-	}
 
 	boolean folderExists(String folderName) {
-
 		File tmpDir = new File(user.getUserPath() + File.separator + folderName);
-
 		return tmpDir.exists();
 	}
 
