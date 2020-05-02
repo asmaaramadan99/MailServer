@@ -32,7 +32,7 @@ class Filter implements IFilter {
 		int low = 0;
 		int high = emails.size() - 1;
 		int mid = low + (high - low) / 2;
-    boolean found = false;
+                boolean found = false;
 		lower.push(low);
 		lower.push(mid);
 		upper.push(high);
