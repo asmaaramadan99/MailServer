@@ -99,7 +99,7 @@ class Filter implements IFilter {
 
 	}
 
-	int getType(String type) {
+	int getFilterType(String type) {
 		if (type.equals("subject"))
 			return 1;
 		if (type.equals("priority"))
@@ -115,8 +115,8 @@ class Filter implements IFilter {
 	@SuppressWarnings("null")
 	public int compare(Mail o1) {
 		// TODO Auto-generated method stub
-		int type = getType(this.filter);
-		switch (type) {
+		int filterType = getFilderType(this.filter);
+		switch (filterType) {
 		case 1:
 			return o1.getSubject().compareTo((String) target);
 		case 2:
