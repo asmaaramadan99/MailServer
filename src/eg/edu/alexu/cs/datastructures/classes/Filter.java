@@ -123,7 +123,7 @@ class Filter implements IFilter {
 			return Integer.compare(o1.getPriority(), (Integer) target);
 		case 3:
 			return o1.getSender().compareTo((String) target);
-		case 4:
+		case 4: //TODO date should be string as a target parameter
 			return o1.getDate().compareTo((Date) target);
 		}
 		return (Integer) null;
