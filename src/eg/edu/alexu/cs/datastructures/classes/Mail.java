@@ -15,7 +15,7 @@ class Mail  implements  IMail, Serializable {
 		
 	private static final long serialVersionUID = -1546344480061265891L;
 	private String sender;
-    private  PriorityQueue receivers=new PriorityQueue();
+        private  PriorityQueue receivers=new PriorityQueue();
 	private String subject;
 	private String bodyText;
 	private LocalDate date;
@@ -23,8 +23,8 @@ class Mail  implements  IMail, Serializable {
 	transient private SinglyLinkedList attachements=new SinglyLinkedList();
 	private String status;
 	private String mailFolderPath;
-    private String ID;
-    private MailBasicInfo basicInfo;
+        private String ID;
+        private MailBasicInfo basicInfo;
 	
 	
 	Mail() 
