@@ -2,27 +2,39 @@ package eg.edu.alexu.cs.datastructures.classes;
 
 import  eg.edu.alexu.csd.datastructure.*;
 import java.io.File;
+import java.io.IOException;
+
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class Main {
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws IOException {
 	  	
-		App a = new App();
-		File[] list = new File(a.rootPath).listFiles();
+	
+		App app = new App();
 		
-		for(File name: list) {
-			System.out.println(name.getName());
-		}
-		
-		//App app = new App();
-		/*//System.out.print(app.signin("asmaa@gmail.com", "hello"));
-		Contact c=new Contact("asmma@gmail.com","asmaa");
-		Contact m=new Contact("asmm@gmail.com","asmaa");
-		System.out.print(app.signup(c));
-		System.out.print(app.signup(m));*/
+	  System.out.println(app.signin("asmaa99@yahoo.com","hi"));
+	  
+	  Mail m=new Mail();
+	  m.setDate();
+	  m.setSender("asmaa");
+	  m.setSubject("hello");
+	  m.setPriority(1);
+	  
+
+	  m.setBodyText("hi"); 
+	  m.setStatus("h"); 
+	  
+	  m.setMailFolderPath(app.currentUser.user.getUserPath(),"Sent");
+	  m.setBasicInfo();	
+	  System.out.println(m.getMailFolderPath());
+	  System.out.println(Index.IndexFilePath); 
+	  m.createMailFolder();
+      
+	  DoubleLinkedList l=Index.getListFromIndexFile();
+	  System.out.println(l.size());
 		
     //    User asmaa=new User("asmaa","asmaa99@yahoo.com","asmaa");
         

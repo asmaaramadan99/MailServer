@@ -18,7 +18,7 @@ class Sort implements ISort {
 		PriorityQueue q = new PriorityQueue();
 		for (int i = 0; i < mails.size(); i++) {
 			Mail mail = (Mail) mails.get(i);
-			q.insert(mail, mail.priority);
+			q.insert(mail, mail.getPriority());
 		}
 		mails.clear();
 		int queueSize = q.size();
@@ -59,7 +59,7 @@ class Sort implements ISort {
 		int low = start;
 		int high = end - 2;
 		Mail piv = (Mail) mails.get(position);
-		String pivot = piv.bodyText;
+		String pivot = piv.getBodyText();
 		swap(mails, position, end - 1);
 
 		while (low < high) {
@@ -67,10 +67,10 @@ class Sort implements ISort {
 			Mail l = (Mail) mails.get(low);
 			Mail h = (Mail) mails.get(high);
 
-			if ((l.bodyText).compareTo(pivot) < 0) {
+			if ((l.getBodyText()).compareTo(pivot) < 0) {
 				low++;
 			} 
-			else if (!((h.bodyText).compareTo(pivot) < 0)) {
+			else if (!((h.getBodyText()).compareTo(pivot) < 0)) {
 				high--;
 			} 
 			else {
@@ -80,7 +80,7 @@ class Sort implements ISort {
 
 		int index = high;
 		Mail h = (Mail) mails.get(high);
-		if ((h.bodyText).compareTo(pivot) < 0) {
+		if ((h.getBodyText()).compareTo(pivot) < 0) {
 			index++;
 		}
 		swap(mails, end - 1, index);
@@ -92,7 +92,7 @@ class Sort implements ISort {
 		int low = start;
 		int high = end - 2;
 		Mail piv = (Mail) mails.get(position);
-		String pivot = piv.senderEmail;
+		String pivot = piv.getSender();
 		swap(mails, position, end - 1);
 
 		while (low < high) {
@@ -100,10 +100,10 @@ class Sort implements ISort {
 			Mail l = (Mail) mails.get(low);
 			Mail h = (Mail) mails.get(high);
 
-			if ((l.senderEmail).compareTo(pivot) < 0) {
+			if ((l.getSender()).compareTo(pivot) < 0) {
 				low++;
 			} 
-			else if (!((h.senderEmail).compareTo(pivot) < 0)) {
+			else if (!((h.getSender()).compareTo(pivot) < 0)) {
 				high--;
 			} 
 			else {
@@ -113,7 +113,7 @@ class Sort implements ISort {
 
 		int index = high;
 		Mail h = (Mail) mails.get(high);
-		if ((h.senderEmail).compareTo(pivot) < 0) {
+		if ((h.getSender()).compareTo(pivot) < 0) {
 			index++;
 		}
 		swap(mails, end - 1, index);
@@ -125,7 +125,7 @@ class Sort implements ISort {
 		int low = start;
 		int high = end - 2;
 		Mail piv = (Mail) mails.get(position);
-		String pivot = piv.subject;
+		String pivot = piv.getSubject();
 		swap(mails, position, end - 1);
 
 		while (low < high) {
@@ -133,10 +133,10 @@ class Sort implements ISort {
 			Mail l = (Mail) mails.get(low);
 			Mail h = (Mail) mails.get(high);
 
-			if ((l.subject).compareTo(pivot) < 0) {
+			if ((l.getSubject()).compareTo(pivot) < 0) {
 				low++;
 			} 
-			else if (!((h.subject).compareTo(pivot) < 0)) {
+			else if (!((h.getSubject()).compareTo(pivot) < 0)) {
 				high--;
 			} 
 			else {
@@ -146,7 +146,7 @@ class Sort implements ISort {
 
 		int index = high;
 		Mail h = (Mail) mails.get(high);
-		if ((h.subject).compareTo(pivot) < 0) {
+		if ((h.getSubject()).compareTo(pivot) < 0) {
 			index++;
 		}
 		swap(mails, end - 1, index);
@@ -168,15 +168,15 @@ class Sort implements ISort {
 		int low = start;
 		int high = end - 2;
 		Mail piv = (Mail) mails.get(position);
-		Date pivot = Date.valueOf(piv.date);
+		Date pivot =(Date) (piv.getDate());
 		swap(mails, position, end - 1);
 		while (low < high) {
 			Mail l = (Mail) mails.get(low);
 			Mail h = (Mail) mails.get(high);
-			if (Date.valueOf(l.date).compareTo(pivot) >= 0) {
+			if ((l.getDate()).compareTo(pivot) >= 0) {
 				low++;
 			} 
-			else if (!((Date.valueOf(h.date).compareTo(pivot) >= 0))) {
+			else if (!(((h.getDate()).compareTo(pivot) >= 0))) {
 				high--;
 			} 
 			else {
@@ -186,7 +186,7 @@ class Sort implements ISort {
 		int index = high;
 		Mail h = (Mail) mails.get(high);
 
-		if (Date.valueOf(h.date).compareTo(pivot) >= 0) {
+		if ((h.getDate()).compareTo(pivot) >= 0) {
 			index++;
 		}
 		swap(mails, end - 1, index);

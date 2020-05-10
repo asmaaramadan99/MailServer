@@ -99,13 +99,7 @@ public class App implements IApp, Serializable {
 		if(f.length()==0) {
 			authenticate.addNewUser(true);
 			contact.setUserPath();
-			try {
-				
-				new User((Contact)contact);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			new User((Contact)contact);
 			return true;
 		}
 		else {
@@ -119,13 +113,7 @@ public class App implements IApp, Serializable {
 			if(!exist)
 				authenticate.addNewUser(false);
 			contact.setUserPath();
-			try {
-				
-				new User((Contact) contact);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			new User((Contact) contact);
 
 		}
 		return exist?false:true;
@@ -134,7 +122,7 @@ public class App implements IApp, Serializable {
 	}
 
 
-	}	@Override
+		@Override
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
 		this.currentFolder = folder;
 		this.currentFilter = filter;

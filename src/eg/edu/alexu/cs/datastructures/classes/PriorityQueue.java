@@ -1,9 +1,15 @@
 package eg.edu.alexu.cs.datastructures.classes;
 
+import java.io.Serializable;
+
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
 
-class PriorityQueue implements IPriorityQueue{
+class PriorityQueue implements IPriorityQueue,Serializable{
 
+	/**
+	 *  
+	 */
+	private static final long serialVersionUID = -5562556808576696772L;
 	int size;
 	 
 	public class Node {

@@ -10,7 +10,11 @@ import eg.edu.alexu.csd.datastructure.SinglyLinkedList;
 public class Contact implements IContact,Serializable{
 
 	
-	private static final long serialVersionUID = -5689051864886253844L;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	enum Folders{Inbox,Sent,Drafts,Trash}
     private String name;
     private String email;

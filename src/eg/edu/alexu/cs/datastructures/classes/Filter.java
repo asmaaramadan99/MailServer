@@ -115,7 +115,7 @@ class Filter implements IFilter {
 	@SuppressWarnings("null")
 	public int compare(Mail o1) {
 		// TODO Auto-generated method stub
-		int filterType = getFilderType(this.filter);
+		int filterType = getFilterType(this.filter);
 		switch (filterType) {
 		case 1:
 			return o1.getSubject().compareTo((String) target);

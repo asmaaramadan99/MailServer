@@ -1,24 +1,64 @@
 package eg.edu.alexu.cs.datastructures.classes;
 import eg.edu.alexu.csd.datastructure.*;
+
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
+
+import java.beans.Transient;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 class Mail  implements  IMail, Serializable {
 		
 	private static final long serialVersionUID = -1546344480061265891L;
-	
 	private String sender;
-	private Queue receivers;
+    private  PriorityQueue receivers=new PriorityQueue();
 	private String subject;
 	private String bodyText;
-	private Date date;
+	private LocalDate date;
 	private Integer priority;
-	private SinglyLinkedList attachements;
+	transient private SinglyLinkedList attachements=new SinglyLinkedList();
 	private String status;
+	private String mailFolderPath;
+    private String ID;
+    private MailBasicInfo basicInfo;
+	
+	
+	Mail() 
+	{   
+		setNewID();
+	
+	}
+	
+	
+	public void setBasicInfo()
+	{
+		this.basicInfo=new MailBasicInfo(sender,receivers,subject,Date.valueOf(date),priority,attachements.size(),status,mailFolderPath);
+		Index.writeToIndexFile(this.basicInfo);
+		
+	}
+	public void setMailFolderPath(String userPath,String folder)
+	{
+		mailFolderPath=userPath+File.separator+folder+File.separator+this.getID();
+		Index.IndexFilePath=userPath+File.separator+folder+File.separator+"index.txt";
+			
+	}
+	public String getMailFolderPath()
+	{
+		return mailFolderPath;
+	}
+	
+	public void setNewID() {
+		this.ID =UUID.randomUUID().toString(); 
+	}
+	
+	public String getID()
+	{
+		return this.ID;
+	}
 	
 	public void setSender(String sender)
 	{
@@ -41,14 +81,15 @@ class Mail  implements  IMail, Serializable {
 	}
 
 
-	public void setDate(Date date)
+	@SuppressWarnings("static-access")
+	public void setDate()
 	{
-		this.date=date;
+		this.date=date.now();
 	}
 
 	public Date getDate()
 	{
-		return date;
+		return Date.valueOf(date);
 
 	}
 
@@ -82,11 +123,11 @@ class Mail  implements  IMail, Serializable {
 		this.status = status;
 	}
 
-	public Queue getReceivers() {
+	public PriorityQueue getReceivers() {
 		return receivers;
 	}
 
-	public void setReceivers(Queue receivers) {
+	public void setReceivers(PriorityQueue receivers) {
 		this.receivers = receivers;
 	}
 
@@ -98,20 +139,24 @@ class Mail  implements  IMail, Serializable {
 		this.bodyText = bodyText;
 	}
 	
-	
-	void creatMailFolders(String Path) {
+	public void createMailFolder() throws IOException
+	{
+		File mailFolder=new File(this.mailFolderPath);
+		mailFolder.mkdirs();
+		File textFile =new File(mailFolder.getAbsolutePath()+File.separator+"text.txt");
+		textFile.createNewFile();
+		FileManager.writeToFile(this.bodyText,textFile.getAbsolutePath());
+
 		
 		
 	}
+
+	public MailBasicInfo getBasicInfo() {
+		return basicInfo;
+	}
+
+
+	
+
 	
 }
-
-
-
-
-
-
-
-	
-	
-	
