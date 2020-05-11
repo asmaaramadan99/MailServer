@@ -1,0 +1,23 @@
+Testing:
+ (User path is always in the user class) --> from app to get current signedIn user (app.currentUser.user.getUserPath())
+
+ 1- create new Contact (set name,email,password,..)
+ 2- Essential--> contact.setUserPath()
+ 3- new App 
+ 4- SignUp 
+ 5- SignIn
+ voilaaa..
+
+ to create a mail:
+ 1- set mail attributes 
+ 2- essential-->Mail.setMailFolderPath(userPath mentioned above,folder name) --> this function sets mailFolderPath & indexFile path too
+ 3- essential -->Mail.setBasicInfo()--> create basic info instance & load pre-existing basic info in the chosen Index file add the basicInfo of the new email then write the list back to the file.
+ 4- Mail.createMailFolder()
+
+ /** to get any bodyText of an email (basicInfo contains the mail folder path) --> path of bodyText file is MailFolderPath+fileseparator+"bodyText.txt"
+  
+  to get the contents of any index file 
+  1-set indexFile path (userPath above+ folderName+"index.txt")
+  2- use method getListFromIndexFile() 
+  
+  
