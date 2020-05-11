@@ -13,7 +13,7 @@
       <AnchorPane layoutX="344.0" prefHeight="418.0" prefWidth="362.0" snapToPixel="false" style="-fx-background-color: #413d65;">
          <effect>
             <Glow />
-         </effect>
+          </effect>
          <children>
             <PasswordField id="signInPass" fx:id="signInPass" layoutX="57.0" layoutY="178.0" prefHeight="31.0" prefWidth="245.0" text="djdjdjdjdjd" />
             <Button id="SigninBt" fx:id="signInBt" graphicTextGap="6.0" layoutX="125.0" layoutY="250.0" mnemonicParsing="false" onAction="#SignIn" prefHeight="31.0" prefWidth="96.0" style="-fx-background-color: #5fb9b0;" text="Sign in" textFill="#2b1f31" />
