@@ -1,6 +1,9 @@
 package eg.edu.alexu.cs.datastructures.classes;
-import MyDataStructures.*;
+import eg.edu.alexu.csd.datastructure.SinglyLinkedList;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
+import eg.edu.alexu.csd.datastructure.DoubleLinkedList;
+import eg.edu.alexu.csd.datastructure.Queue;
+
 import java.io.File;
 import java.io.Serializable;
 import java.io.FileNotFoundException;
@@ -19,9 +22,9 @@ public class App implements IApp, Serializable {
 	public static String attachmentsFolderPath;
 	User currentUser;
 	protected static String SystemUsersPath;
-	IFolder currentFolder;
-	IFilter currentFilter;
-	ISort currentSort;
+	Folder currentFolder;
+	Filter currentFilter;
+	Sort currentSort;
 	
 	
 	void setInitialFoldersPaths() {
@@ -44,6 +47,7 @@ public class App implements IApp, Serializable {
 		// no errors will occur if the folders already exist
 		createInitialFolders(); 
 		createSystemUserFile();		
+		setDefaultViewOptions();
 		
 	}
 	
@@ -77,16 +81,15 @@ public class App implements IApp, Serializable {
 		}
 		if(exist&&authenticate.matchPass)
 		{   Contact c=authenticate.getCurrentUser();
-		//System.out.println(c.getUserPath());
-		this.currentUser=(User) FileManager.getFile(c.getUserPath()+File.separator+"userInfo.bin");
+			//System.out.println(c.getUserPath());
+			this.currentUser=(User) FileManager.getFile(c.getUserPath()+File.separator+"userInfo.bin");
 		}
-
 
 		return exist&&authenticate.matchPass?true:false;
 
 	}
 
-
+	
 
 	@Override
 	public boolean signup(final IContact contact) {
@@ -114,38 +117,78 @@ public class App implements IApp, Serializable {
 				authenticate.addNewUser(false);
 			contact.setUserPath();
 			new User((Contact) contact);
+			
+			// if he has to sign in agian
+			// this.crrent user = new User((Contact) contact);
 
 		}
 		return exist?false:true;
 
-
 	}
 
+	
+	void setDefaultViewOptions() {
+		currentFolder = new Folder("inbox");
+		currentFilter = null;
+		currentSort = null;
+	}
 
 		@Override
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
-		this.currentFolder = folder;
-		this.currentFilter = filter;
-		this.currentSort = sort;
+		this.currentFolder = (Folder) folder;
+		this.currentFilter = (Filter) filter;
+		this.currentSort = (Sort) sort;
 		
 	}
 
 	@Override
 	public IMail[] listEmails(int page) {
+		// pages Are 1,2,3,4
 		
-		/// 1- get indexFilePath from currentUser >> user.indexFilePath(Folder.folderName);
-		/// 2- read the data 
-		/// 3- apply the needed filters and sorts
-		/// 4- send the emails
+		// could be bigger but 1000 is enough here
 		
+		final Integer numOfEmailsPerPage = 10;
+		SinglyLinkedList allMails = new SinglyLinkedList();
+		Mail[] mails = new Mail[numOfEmailsPerPage];
 		
-		return null;
+		String folderName = currentFolder.name;
+		String folderIndexFile = currentUser.user.getUserPath() +
+				File.separator + folderName + 
+				File.separator + "index.txt";
+		
+		Index.IndexFilePath = folderIndexFile;
+		System.out.println(folderIndexFile);
+		DoubleLinkedList basicInfoMails =  Index.getListFromIndexFile();
+		
+		/// convert basicInfoMails to MailsArray (allMails)
+		for(int i=0; i<basicInfoMails.size(); i++) {
+			MailBasicInfo mba = (MailBasicInfo)basicInfoMails.get(i);
+			Mail mail = constructMail(mba);
+			allMails.add(mail);
+		}
+
+		// get page from allMails
+		int counter=0;
+		int numOfPages = basicInfoMails.size() / numOfEmailsPerPage;
+		int start = (page-1) * (numOfEmailsPerPage);
+	//	System.out.println(basicInfoMails.size());
+		for(int i=start; i<start + numOfEmailsPerPage; i++) {
+			
+			if(i >= allMails.size())
+				break;
+			// ------------------------------------
+			
+			mails[counter] = (Mail)allMails.get(i);
+			counter++;
+		}
+		return mails;
+	
 	}
 
 	@Override
 	public void deleteEmails(ILinkedList mails) {
 		// TODO Auto-generated method stub
-		
+			
 	}
 
 	@Override
@@ -156,10 +199,94 @@ public class App implements IApp, Serializable {
 
 	@Override
 	public boolean compose(IMail email) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		
+		
+		Mail mail = (Mail) email;
+		
+		Queue recievers = mail.receivers;
+		if(!validateRecievers(recievers))
+			return false;
+		
+		String userPath = this.currentUser.user.getUserPath();
+		mail.store(userPath, "sent");
+		
+		/// put emails in recievers' files and add them to index Files
+		while(recievers.isEmpty() == false) {
+			
+			String receiverEmail = (String)recievers.dequeue();	
+			String receiverPath = App.accountsFolderPath + 
+					File.separator + receiverEmail;
+			String receiverInboxPath = receiverPath + File.separator
+					+ "inbox";
+			String indexFilePath = receiverInboxPath + File.separator
+					+  "index.txt";
+			
 
+			Index.IndexFilePath = indexFilePath;
+			Index.writeToIndexFile(mail.basicInfo);
+			mail.store(receiverPath, "inbox");
+		}
+		Index.IndexFilePath = currentUser.user.getUserPath();
+		
+		return true;
+		
+	}
+	
+	boolean validateRecievers(Queue receivers) {
+		Queue a = new Queue();
+		while(receivers.isEmpty() == false) {
+			String receiverEmail = (String)receivers.dequeue();
+			
+			if(emailExists(receiverEmail) == false)
+				return false;
+			
+			a.enqueue(receiverEmail.toLowerCase());
+		}
+		
+		while(a.isEmpty() == false) {
+			String receiverEmail = (String)a.dequeue();
+			receivers.enqueue(receiverEmail);
+		}
+		
+		return true;
+	}
+	
+	
+	
+	
+	boolean emailExists(String email) {
+		
+		Contact receiverContact = new Contact(email);
+		Authentication authenticate=new Authentication(SystemUsersPath,
+				receiverContact);
+		
+		if(!authenticate.isValidEmailFormat())
+			return false;
+		
+		boolean ans = false;
+		try {
+			ans = authenticate.exist();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		return ans;
+	}
+	
+	User getUser(String userEmail) {
+		String userPath = App.accountsFolderPath + File.separator +
+				userEmail + File.separator + "userInfo.bin";
+		
+		return (User)FileManager.getFile(userPath);
+	}
+	
+	Mail constructMail(MailBasicInfo a) {
+		Mail b = new Mail();
+		b.basicInfo = a;
+		return b;
+	}
 	
 
 }

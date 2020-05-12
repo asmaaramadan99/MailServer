@@ -54,5 +54,7 @@ public class User implements IUser, Serializable {
 		File tmpDir = new File(user.getUserPath() + File.separator + folderName);
 		return tmpDir.exists();
 	}
+	
+	
 
 }

@@ -8,8 +8,6 @@ import eg.edu.alexu.cs.datastructures.Interfaces.IContact;
 import eg.edu.alexu.csd.datastructure.SinglyLinkedList;
 
 public class Contact implements IContact,Serializable{
-
-	
 	
 	/**
 	 * 
@@ -23,6 +21,15 @@ public class Contact implements IContact,Serializable{
     private String userPath;
 
     
+    Contact(){}
+    Contact(String email, String password){
+    	this.email = email.toLowerCase();
+    	this.password = password;
+    }
+    
+    Contact(String email){
+    	this.email = email.toLowerCase();
+    }
 
    public String getEmail()
     {
@@ -31,7 +38,7 @@ public class Contact implements IContact,Serializable{
  
    public void setEmail(final String email)
    {
-	   this.email=email;
+	   this.email=email.toLowerCase();
    }
    
    public String getPassword()
@@ -64,12 +71,11 @@ public class Contact implements IContact,Serializable{
 	   return birthday;
    }
    
-  
-   
    public void setUserPath()
    {
-	   this.userPath=App.accountsFolderPath+File.separator+this.name;
+	   this.userPath=App.accountsFolderPath+File.separator+this.email;
    }
+   
    public String getUserPath()
    {
 	   return userPath;

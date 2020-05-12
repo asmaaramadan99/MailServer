@@ -20,13 +20,11 @@ public class myContact implements Serializable {
 		
 	}
 	
-	public myContact() {
-		// TODO Auto-generated constructor stub
-	}
-    //allows user to add a contact to his list
-	void addContact(SinglyLinkedList myContacts,myContact contact)
-	{   if(!myContacts.contains(contact))
-		myContacts.add(contact);
+	//allows user to add a contact to his list
+	public static void addContact(SinglyLinkedList myContacts,myContact contact)
+	{   
+		if(!myContacts.contains(contact))
+			myContacts.add(contact);
 	}
 	
 	//add an email for a contact that exits in the list

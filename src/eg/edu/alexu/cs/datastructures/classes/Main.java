@@ -1,7 +1,9 @@
 package eg.edu.alexu.cs.datastructures.classes;
 
-import  eg.edu.alexu.csd.datastructure.*;
+import MyDataStructures.SinglyLinkedList;
+import  eg.edu.alexu.csd.datastructure.Queue;  
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
@@ -10,31 +12,99 @@ import java.util.UUID;
 
 public class Main {
 
-	public static void main(String args[]) throws IOException {
-	  	
 	
-		App app = new App();
+	static void moazTest() {
 		
-	  System.out.println(app.signin("asmaa99@yahoo.com","hi"));
-	  
-	  Mail m=new Mail();
-	  m.setDate();
-	  m.setSender("asmaa");
-	  m.setSubject("hello");
-	  m.setPriority(1);
-	  
+		App app = new App();
+		Contact moaz = new Contact("Mohamed@gmail.com", "pass");
+		moaz.setName("ahmed"); 
+		moaz.setUserPath();
+		System.out.println(app.signup(moaz));
+		System.out.println(app.signin(moaz.getEmail(), moaz.getPassword()));
+		System.out.println(moaz.getUserPath());
+		
+		try {
+			System.out.print(app.emailExists("ahmed@gmail.com"));
+		} catch(Exception e) {
+			
+		}
+		
+	}
+	
+	static void generateUsers() {
+		App app = new App();
+		Contact moaz = new Contact("Mohamed@gmail.com", "pass");
+		moaz.setName("mohamed"); 
+		moaz.setUserPath();
+		System.out.println(app.signup(moaz));
+		
+		 moaz = new Contact("ahmed@gmail.com", "pass");
+		moaz.setName("ahmed"); 
+		moaz.setUserPath();
+		System.out.println(app.signup(moaz));
+		
+		
+		 moaz = new Contact("moaz@gmail.com", "pass");
+			moaz.setName("moaz"); 
+			moaz.setUserPath();
+			System.out.println(app.signup(moaz));
+			
+	}
+	
+	static void newEmails() {
 
-	  m.setBodyText("hi"); 
-	  m.setStatus("h"); 
-	  
-	  m.setMailFolderPath(app.currentUser.user.getUserPath(),"Sent");
-	  m.setBasicInfo();	
-	  System.out.println(m.getMailFolderPath());
-	  System.out.println(Index.IndexFilePath); 
-	  m.createMailFolder();
-      
-	  DoubleLinkedList l=Index.getListFromIndexFile();
-	  System.out.println(l.size());
+		  App app = new App();
+		  System.out.println(app.signin("ahmed@gmail.com","pass"));
+		  String a = new String ("C:\\Users\\Moaz\\Deskt"
+		  		+ "op\\corona.jpg");
+		  SinglyLinkedList A= new SinglyLinkedList();
+		  A.add(a); 
+		  
+		 /* Mail m=new Mail("ahmed@gmail.com", "ads", "2mdfasfasfag",
+				  null, 2, A );
+		  
+		  
+		  Queue z = new Queue();
+		  z.enqueue("mohamed@gmail.com");
+		  z.enqueue("moaz@gmail.com");
+		  m.receivers = z;
+		  System.out.print(app.compose(m));
+		  
+		  System.out.println(m.getBodyText());*/
+		
+	}
+	
+	
+	
+	static void getMails() {
+		App app = new App();
+		System.out.println(app.signin("moaz@gmail.com","pass"));
+		Mail[] mails = (Mail[])app.listEmails(1);
+		for(int i=0; i<mails.length; i++) {
+			if(mails[i] == null)
+				break;
+			
+			String text = (mails[i]).getBodyText();
+			System.out.println(text);
+		}
+	}
+	
+	
+	public static void main(String args[]) {
+		
+		SinglyLinkedList a = new SinglyLinkedList();
+		a.add(1);
+		a.add(2);
+		a.add(3);
+		System.out.println(a.size());
+		
+		//generateUsers();
+		//newEmails();
+		//getMails();
+		
+		
+		//filterShit();
+		
 		
     //    User asmaa=new User("asmaa","asmaa99@yahoo.com","asmaa");
         

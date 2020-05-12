@@ -3,92 +3,33 @@ package eg.edu.alexu.cs.datastructures.classes;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.UUID;
+
+import eg.edu.alexu.csd.datastructure.SinglyLinkedList;
 public class MailBasicInfo implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3347324734166375499L;
-	/**
-	 * 
-	 */
 	
-	private String sender;
-	transient private PriorityQueue receivers;
-	private String subject;
-	private Date date;
-	private Integer priority;
-	private int  noOfAttachements;
-	private String status;
-	private String mailFolderPath;
-  
-     
-    
-    MailBasicInfo(String sender, PriorityQueue receivers, String subject, Date date, Integer priority, int noOfAttachements,String status,String mailFolderPath) {
-	this.sender=sender;
-	this.receivers=receivers;
-	this.subject=subject;
-	this.date=date;
-	this.priority=priority;
-	this.noOfAttachements=noOfAttachements;
-	this.status=status;
-	this.mailFolderPath=mailFolderPath; 
-    	
+	public static final long serialVersionUID = 3347324734166375499L;
+	public String sender;
+	public String subject;
+	public String date;
+	public Integer priority;
+	public SinglyLinkedList attachements=new SinglyLinkedList();
+	public String mailFolderPath;
+	
+	public String status;
+	public String ID;
+	
+    MailBasicInfo(String sender, 
+    		String subject, String date, Integer priority,
+    		SinglyLinkedList attachments) {
+		this.sender=sender;
+		this.subject=subject;
+		this.date= date;
+		this.priority=priority;
+		this.status="unread";
+		this.ID = UUID.randomUUID().toString();
+		this.attachements = attachments;
     }
 
-
-	public String getSender() {
-		return sender;
-	}
-
-
-
-	public PriorityQueue getReceivers() {
-		return receivers;
-	}
-
-
-
-	public String getSubject() {
-		return subject;
-	}
-
-
 	
-
-
-	public Date getDate() {
-		return date;
-	}
-
-
-
-
-
-	public Integer getPriority() {
-		return priority;
-	}
-
-
-
-
-	public int getNoOfAttachements() {
-		return noOfAttachements;
-	}
-
-
-	
-
-	public String getStatus() {
-		return status;
-	}
-
-
-
-	public String getMailFolderPath() {
-		return mailFolderPath;
-	}
-
-
-
-
 }

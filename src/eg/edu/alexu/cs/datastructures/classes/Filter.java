@@ -6,8 +6,8 @@ import eg.edu.alexu.csd.datastructure.Stack;
 
 class Filter implements IFilter {
 
-	private String filter;
-	private Object target;
+	private String filter; // subject priority sender
+	private Object target; // value
 	private SinglyLinkedList emails;
 	private SinglyLinkedList filtered;
 

@@ -14,149 +14,111 @@ import java.util.UUID;
 class Mail  implements  IMail, Serializable {
 		
 	private static final long serialVersionUID = -1546344480061265891L;
-	private String sender;
-        private  PriorityQueue receivers=new PriorityQueue();
-	private String subject;
-	private String bodyText;
-	private LocalDate date;
-	private Integer priority;
-	transient private SinglyLinkedList attachements=new SinglyLinkedList();
-	private String status;
-	private String mailFolderPath;
-        private String ID;
-        private MailBasicInfo basicInfo;
+	public Queue receivers=new Queue();
+	public String bodyText;
+	public MailBasicInfo basicInfo;
 	
+	Mail(){}
 	
-	Mail() 
-	{   
-		setNewID();
-	
-	}
-	
-	
-	public void setBasicInfo()
+    Mail(String sender, 
+    		String subject, String bodyText , String date, Integer priority,
+    		SinglyLinkedList attachments){
+    	
+    	this.bodyText = bodyText;
+    	if(priority < 1) priority = 1;
+    	if(priority > 5) priority = 5;
+    	
+    	this.basicInfo = new MailBasicInfo(sender, 
+    		 subject,  date,  priority,
+    		 attachments);
+    	
+    }
+    
+    
+    public void store(String userPath, String folder) {
+    	setMailFolderPath(userPath, folder);
+    	addToIndexFile();
+    	try{
+    		createMailFolder();
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    }
+    
+	public void addToIndexFile()
 	{
-		this.basicInfo=new MailBasicInfo(sender,receivers,subject,Date.valueOf(date),priority,attachements.size(),status,mailFolderPath);
 		Index.writeToIndexFile(this.basicInfo);
-		
 	}
 	public void setMailFolderPath(String userPath,String folder)
 	{
-		mailFolderPath=userPath+File.separator+folder+File.separator+this.getID();
-		Index.IndexFilePath=userPath+File.separator+folder+File.separator+"index.txt";
-			
-	}
-	public String getMailFolderPath()
-	{
-		return mailFolderPath;
-	}
-	
-	public void setNewID() {
-		this.ID =UUID.randomUUID().toString(); 
-	}
-	
-	public String getID()
-	{
-		return this.ID;
-	}
-	
-	public void setSender(String sender)
-	{
-		this.sender=sender;
-	}
-
-	public String getSender()
-	{
-		return this.sender;
-	}
-
-	public void setSubject(String subject)
-	{
-		this.subject=subject;
-	}
-
-	public String getSubject()
-	{
-		return this.subject;
-	}
-
-
-	@SuppressWarnings("static-access")
-	public void setDate()
-	{
-		this.date=date.now();
-	}
-
-	public Date getDate()
-	{
-		return Date.valueOf(date);
-
-	}
-
-	public Integer getPriority() {
-		return priority;
-	}
-
-	public boolean setPriority(Integer priority) {
-		if(priority <=5 && priority >=1 )
-			this.priority = priority;
-		
-		else 
-			return false;
-		
-		return true;
-	}
-
-	public SinglyLinkedList getAttachements() {
-		return attachements;
-	}
-
-	public void setAttachements(SinglyLinkedList attachements) {
-		this.attachements = attachements;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public PriorityQueue getReceivers() {
-		return receivers;
-	}
-
-	public void setReceivers(PriorityQueue receivers) {
-		this.receivers = receivers;
-	}
-
-	public String getBodyText() {
-		return bodyText;
-	}
-
-	public void setBodyText(String bodyText) {
-		this.bodyText = bodyText;
+		basicInfo.mailFolderPath=userPath+File.separator+folder+File.separator+this.basicInfo.ID;
+		Index.IndexFilePath=userPath+File.separator+folder+File.separator+"index.txt";		
 	}
 	
 	public void createMailFolder() throws IOException
 	{
-		File mailFolder=new File(this.mailFolderPath);
+		File mailFolder=new File(this.basicInfo.mailFolderPath);
 		mailFolder.mkdirs();
 		File textFile =new File(mailFolder.getAbsolutePath()+File.separator+"text.txt");
 		textFile.createNewFile();
 		FileManager.writeToFile(this.bodyText,textFile.getAbsolutePath());
 
 		
+		// store attachments
+		for(int i=0; i<basicInfo.attachements.size(); i++) {
+			String attachment = (String) basicInfo.attachements.get(i);
+			attachment = Attachment.store(attachment);
+			basicInfo.attachements.set(i, attachment); 
+		}
 		
 	}
+	
+	/// --------------------------------------------
+	
+	public String getMailFolderPath()
+	{
+		return basicInfo.mailFolderPath;
+	}
+	
+	public Queue getReceivers() {
+		return this.receivers;
+	}
 
+	public String getSubject() {
+		return basicInfo.subject;
+	}
+	
+
+	public String getBodyText() {
+		String path = basicInfo.mailFolderPath +
+				File.separator + "text.txt";
+		
+		return (String)FileManager.getFile(path);
+	}
+	
+	public String getSender() {
+		return basicInfo.sender;
+	}
+	
+	public Date getDate() {
+		return Date.valueOf(basicInfo.date);
+	}
+	
+	public String getStatus() {
+		return this.basicInfo.status;
+	}
+	
+	public int getPriority() {
+		return this.basicInfo.priority;
+	}
+
+	public SinglyLinkedList getattachments() {
+		return basicInfo.attachements;
+	}
+	
 	public MailBasicInfo getBasicInfo() {
 		return basicInfo;
 	}
 
-
-	
-
-	
 }

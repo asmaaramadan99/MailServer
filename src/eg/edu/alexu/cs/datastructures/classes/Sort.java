@@ -168,7 +168,7 @@ class Sort implements ISort {
 		int low = start;
 		int high = end - 2;
 		Mail piv = (Mail) mails.get(position);
-		Date pivot =(Date) (piv.getDate());
+		Date pivot = (Date) (piv.getDate());
 		swap(mails, position, end - 1);
 		while (low < high) {
 			Mail l = (Mail) mails.get(low);
