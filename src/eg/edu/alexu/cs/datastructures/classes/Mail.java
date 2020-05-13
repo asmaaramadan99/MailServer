@@ -36,6 +36,7 @@ class Mail  implements  IMail, Serializable {
     
     
     public void store(String userPath, String folder) {
+    	System.out.println("new mail created");
     	setMailFolderPath(userPath, folder);
     	addToIndexFile();
     	try{
@@ -64,8 +65,10 @@ class Mail  implements  IMail, Serializable {
 		textFile.createNewFile();
 		FileManager.writeToFile(this.bodyText,textFile.getAbsolutePath());
 
-		
+		 
 		// store attachments
+		if(basicInfo.attachements == null)
+			return;
 		for(int i=0; i<basicInfo.attachements.size(); i++) {
 			String attachment = (String) basicInfo.attachements.get(i);
 			attachment = Attachment.store(attachment);

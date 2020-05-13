@@ -1,7 +1,6 @@
 package eg.edu.alexu.cs.datastructures.classes;
 
-import MyDataStructures.SinglyLinkedList;
-import  eg.edu.alexu.csd.datastructure.Queue;  
+import eg.edu.alexu.csd.datastructure.*;  
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,9 +18,8 @@ public class Main {
 		Contact moaz = new Contact("Mohamed@gmail.com", "pass");
 		moaz.setName("ahmed"); 
 		moaz.setUserPath();
-		System.out.println(app.signup(moaz));
-		System.out.println(app.signin(moaz.getEmail(), moaz.getPassword()));
-		System.out.println(moaz.getUserPath());
+		app.signup(moaz);
+		app.signin(moaz.getEmail(), moaz.getPassword());
 		
 		try {
 			System.out.print(app.emailExists("ahmed@gmail.com"));
@@ -36,18 +34,18 @@ public class Main {
 		Contact moaz = new Contact("Mohamed@gmail.com", "pass");
 		moaz.setName("mohamed"); 
 		moaz.setUserPath();
-		System.out.println(app.signup(moaz));
-		
+		app.signup(moaz);
+		 
 		 moaz = new Contact("ahmed@gmail.com", "pass");
 		moaz.setName("ahmed"); 
 		moaz.setUserPath();
-		System.out.println(app.signup(moaz));
+		app.signup(moaz);
 		
 		
 		 moaz = new Contact("moaz@gmail.com", "pass");
-			moaz.setName("moaz"); 
-			moaz.setUserPath();
-			System.out.println(app.signup(moaz));
+		moaz.setName("moaz"); 
+		moaz.setUserPath();
+		app.signup(moaz);
 			
 	}
 	
@@ -60,17 +58,17 @@ public class Main {
 		  SinglyLinkedList A= new SinglyLinkedList();
 		  A.add(a); 
 		  
-		 /* Mail m=new Mail("ahmed@gmail.com", "ads", "2mdfasfasfag",
+		  Mail m=new Mail("ahmed@gmail.com", "ads", "2mdfasfasfag",
 				  null, 2, A );
 		  
 		  
 		  Queue z = new Queue();
 		  z.enqueue("mohamed@gmail.com");
-		  z.enqueue("moaz@gmail.com");
+		  //z.enqueue("moaz@gmail.com");
 		  m.receivers = z;
-		  System.out.print(app.compose(m));
-		  
-		  System.out.println(m.getBodyText());*/
+		  System.out.print("Composing is -> ");
+		  System.out.println(app.compose(m));
+		  System.out.println("------ end compose -> ");
 		
 	}
 	
@@ -78,7 +76,7 @@ public class Main {
 	
 	static void getMails() {
 		App app = new App();
-		System.out.println(app.signin("moaz@gmail.com","pass"));
+		app.signin("mohamed@gmail.com","pass");
 		Mail[] mails = (Mail[])app.listEmails(1);
 		for(int i=0; i<mails.length; i++) {
 			if(mails[i] == null)
@@ -92,15 +90,9 @@ public class Main {
 	
 	public static void main(String args[]) {
 		
-		SinglyLinkedList a = new SinglyLinkedList();
-		a.add(1);
-		a.add(2);
-		a.add(3);
-		System.out.println(a.size());
-		
-		//generateUsers();
-		//newEmails();
-		//getMails();
+		generateUsers();
+		newEmails();
+		getMails();
 		
 		
 		//filterShit();

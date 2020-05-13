@@ -19,10 +19,10 @@ public class Index {
 	    	
 	    }
 	    else {
-		DoubleLinkedList currentEmails=new DoubleLinkedList();
-		currentEmails=getListFromIndexFile();
-		currentEmails.add(basicInfo);
-		FileManager.writeToFile(currentEmails,IndexFilePath);
+			DoubleLinkedList currentEmails=new DoubleLinkedList();
+			currentEmails=getListFromIndexFile();
+			currentEmails.add(basicInfo);
+			FileManager.writeToFile(currentEmails,IndexFilePath);
 	    }
 		
 	}

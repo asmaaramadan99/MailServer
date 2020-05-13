@@ -6,6 +6,9 @@ import eg.edu.alexu.csd.datastructure.Queue;
 
 import java.io.File;
 import java.io.Serializable;
+
+import MyDataStructures.ILinkedList;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -25,6 +28,7 @@ public class App implements IApp, Serializable {
 	Folder currentFolder;
 	Filter currentFilter;
 	Sort currentSort;
+	SinglyLinkedList allMails;
 	
 	
 	void setInitialFoldersPaths() {
@@ -44,11 +48,12 @@ public class App implements IApp, Serializable {
 	public App(){
 		
 		setInitialFoldersPaths();
-		// no errors will occur if the folders already exist
 		createInitialFolders(); 
 		createSystemUserFile();		
 		setDefaultViewOptions();
 		
+		
+		allMails = new SinglyLinkedList();
 	}
 	
 	public void createSystemUserFile()
@@ -81,7 +86,6 @@ public class App implements IApp, Serializable {
 		}
 		if(exist&&authenticate.matchPass)
 		{   Contact c=authenticate.getCurrentUser();
-			//System.out.println(c.getUserPath());
 			this.currentUser=(User) FileManager.getFile(c.getUserPath()+File.separator+"userInfo.bin");
 		}
 
@@ -138,7 +142,6 @@ public class App implements IApp, Serializable {
 		this.currentFolder = (Folder) folder;
 		this.currentFilter = (Filter) filter;
 		this.currentSort = (Sort) sort;
-		
 	}
 
 	@Override
@@ -157,21 +160,24 @@ public class App implements IApp, Serializable {
 				File.separator + "index.txt";
 		
 		Index.IndexFilePath = folderIndexFile;
-		System.out.println(folderIndexFile);
 		DoubleLinkedList basicInfoMails =  Index.getListFromIndexFile();
 		
+		if(basicInfoMails.size() == 0)
+			return mails;
+		
+		
 		/// convert basicInfoMails to MailsArray (allMails)
+		
 		for(int i=0; i<basicInfoMails.size(); i++) {
 			MailBasicInfo mba = (MailBasicInfo)basicInfoMails.get(i);
 			Mail mail = constructMail(mba);
 			allMails.add(mail);
 		}
-
+		System.out.println( "num of mails " + allMails.size());	
 		// get page from allMails
 		int counter=0;
 		int numOfPages = basicInfoMails.size() / numOfEmailsPerPage;
 		int start = (page-1) * (numOfEmailsPerPage);
-	//	System.out.println(basicInfoMails.size());
 		for(int i=start; i<start + numOfEmailsPerPage; i++) {
 			
 			if(i >= allMails.size())
@@ -187,13 +193,11 @@ public class App implements IApp, Serializable {
 
 	@Override
 	public void deleteEmails(ILinkedList mails) {
-		// TODO Auto-generated method stub
 			
 	}
 
 	@Override
 	public void moveEmails(ILinkedList mails, IFolder des) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -212,20 +216,19 @@ public class App implements IApp, Serializable {
 		
 		/// put emails in recievers' files and add them to index Files
 		while(recievers.isEmpty() == false) {
-			
 			String receiverEmail = (String)recievers.dequeue();	
+
 			String receiverPath = App.accountsFolderPath + 
 					File.separator + receiverEmail;
 			String receiverInboxPath = receiverPath + File.separator
 					+ "inbox";
 			String indexFilePath = receiverInboxPath + File.separator
 					+  "index.txt";
-			
 
 			Index.IndexFilePath = indexFilePath;
-			Index.writeToIndexFile(mail.basicInfo);
 			mail.store(receiverPath, "inbox");
 		}
+		DoubleLinkedList basicInfoMails =  Index.getListFromIndexFile();
 		Index.IndexFilePath = currentUser.user.getUserPath();
 		
 		return true;
