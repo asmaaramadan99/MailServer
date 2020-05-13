@@ -22,7 +22,7 @@ public class Contact implements IContact,Serializable{
 
     
     Contact(){}
-    Contact(String email, String password){
+    public Contact(String email, String password){
     	this.email = email.toLowerCase();
     	this.password = password;
     }

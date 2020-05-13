@@ -7,7 +7,7 @@ public class Attachment {
 	public static String store(String originalPath) {
 		File attachment = new File(originalPath);
 		String name = attachment.getName();
-		String newName = name + "#" + UUID.randomUUID().toString();
+		String newName = name; // deprecated + "#" + UUID.randomUUID().toString();
 		String newPath = App.attachmentsFolderPath 
 				+ File.separator
 				+ newName;

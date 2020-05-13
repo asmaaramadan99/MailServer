@@ -1,6 +1,10 @@
 package eg.edu.alexu.cs.datastructures.classes;
 
-import eg.edu.alexu.csd.datastructure.*;  
+import eg.edu.alexu.csd.datastructure.*;
+
+import static org.junit.Assert.assertEquals;
+
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -58,7 +62,7 @@ public class Main {
 		  SinglyLinkedList A= new SinglyLinkedList();
 		  A.add(a); 
 		  
-		  Mail m=new Mail("ahmed@gmail.com", "ads", "2mdfasfasfag",
+		  Mail m=new Mail("ahmed@gmVail.com", "ads", "2mdfasfasfag",
 				  null, 2, A );
 		  
 		  
@@ -69,31 +73,102 @@ public class Main {
 		  System.out.print("Composing is -> ");
 		  System.out.println(app.compose(m));
 		  System.out.println("------ end compose -> ");
-		
+		 
 	}
 	
 	
 	
 	static void getMails() {
-		App app = new App();
+		/*App app = new App();
 		app.signin("mohamed@gmail.com","pass");
 		Mail[] mails = (Mail[])app.listEmails(1);
 		for(int i=0; i<mails.length; i++) {
 			if(mails[i] == null)
 				break;
-			
+				
 			String text = (mails[i]).getBodyText();
 			System.out.println(text);
-		}
+		}*/
+		
+		App app = new App();
+		
+		app.signin("mohamed@gmail.com", "pass");
+		Mail m = (Mail)app.listEmails(1)[2];
+	 	
+		System.out.println(m.getBodyText());
+	 	SinglyLinkedList attachments = m.getattachments();
+	 	Desktop desktop = Desktop.getDesktop();
+		  
+	 	   for(int i=0; i<attachments.size(); i++) {
+			  File file = new File( (String) attachments.get(i) );
+			  try {
+				desktop.open(file);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		  }
 	}
 	
 	
+	static void PQandSort() {
+		//priority queue test
+		PriorityQueue q=new PriorityQueue();
+			q.insert(5,2);
+			q.insert(4,2);
+			q.insert(2,2);
+			q.insert(-1,2);
+			System.out.println(q.removeMin());
+			System.out.println(q.removeMin());
+			System.out.println(q.removeMin());
+			System.out.println(q.size());
+			
+		
+		/*
+		
+		SinglyLinkedList mails = new SinglyLinkedList();
+		
+		Mail mail1=new Mail("ahmed@gmVail.com", "subject1", "mail1",
+				  null, 3, null );
+		Mail mail2=new Mail("basel@gmVail.com", "subject2", "mail2",
+				  null, 3, null );
+		Mail mail3=new Mail("ziad@gmVail.com", "subject3", "mail3",
+				  null, 3, null );
+		  
+	   
+		//mail1.date=LocalDate.now().plusDays(2);
+		//mail2.date=LocalDate.now().plusDays(1);
+		//mail3.date=LocalDate.now().plusDays(3);
+
+
+
+	    mails.add(mail1);
+	    mails.add(mail2);
+	    mails.add(mail3); 
+	    
+	    Sort.priority(mails);
+	   // Sort.iterativeQuickSort(mails,"Subject");
+	   // Sort.iterativeQuickSort(mails,"Sender");
+	    //Sort.iterativeQuickSort(mails,"Body");
+
+	 
+	   for (int i=0;i<mails.size();i++) {
+	    	Mail m=(Mail) mails.get(i);
+	    	//System.out.println(m.date);
+	        //System.out.println(m.subject);
+	        //System.out.println(m.subject);
+            System.out.println(m.bodyText);
+
+	    }
+		 */
+	}
+	
 	public static void main(String args[]) {
 		
-		generateUsers();
-		newEmails();
+		//generateUsers();
+		//newEmails();h
 		getMails();
-		
+	//	PQandSort();
 		
 		//filterShit();
 		
@@ -191,50 +266,7 @@ public class Main {
 		
 	}
 	
-	/*
-	//priority queue test
-	PriorityQueue q=new PriorityQueue();
-		q.insert(5,2);
-		q.insert(6,1);
-		System.out.println(q.removeMin());
-		System.out.println(q.size());
-		
 	
-	
-	//sorting test
-		SinglyLinkedList mails = new SinglyLinkedList();
-		
-		Mail mail1=new Mail("c", "mariam@gmail.com",  "l",3 , null);
-		Mail mail2=new Mail("a", "zaitoun@gmail.com",  "o",1 , null);
-		Mail mail3=new Mail("b", "asmaa@gmail.com",  "a",2, null);
-
-	   
-		mail1.date=LocalDate.now().plusDays(2);
-		mail2.date=LocalDate.now().plusDays(1);
-		mail3.date=LocalDate.now().plusDays(3);
-
-
-
-	    mails.add(mail1);
-	    mails.add(mail2);
-	    mails.add(mail3); 
-	    
-	    Sort.iterativeQuickSort(mails,"Default");
-	    Sort.iterativeQuickSort(mails,"Subject");
-	    Sort.iterativeQuickSort(mails,"Sender");
-	    Sort.iterativeQuickSort(mails,"Body");
-
 	 
-	   for (int i=0;i<mails.size();i++) {
-	    	Mail m=(Mail) mails.get(i);
-	    	//System.out.println(m.date);
-	        //System.out.println(m.subject);
-	        //System.out.println(m.subject);
-            System.out.println(m.bodyText);
-
-	    }
-	  
-	}
-*/
 
 }

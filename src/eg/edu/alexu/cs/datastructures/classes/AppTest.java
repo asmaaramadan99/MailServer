@@ -19,33 +19,39 @@ public class AppTest {
 		Contact user = new Contact("Mohamed@gmail.com", "pass");
 		user.setName("mohamed"); 
 		user.setUserPath();
-		System.out.println(app.signup(user));
+		app.signup(user);
 		
 		user = new Contact("ahmed@gmail.com", "pass");
 		user.setName("ahmed"); 
 		user.setUserPath();
-		System.out.println(app.signup(user));
+		assertEquals(app.signup(user),true);
 		
 		
 		user = new Contact("moaz@gmail.com", "pass");
 		user.setName("moaz"); 
 		user.setUserPath();
-		System.out.println(app.signup(user));
+		app.signup(user);
 		
 		Contact omar = new Contact("omar@gmail.com", "pass");
 		user.setName("Omar"); 
 		user.setUserPath();
-		System.out.println(app.signup(user));
+		app.signup(user);
 	}
-	
-	void generateEmails(String subject) {
+	 
+	void generateEmails(String Sender,String bodyText, int priority, String subject) {
 		  
 		 app = new App();
 		 
+		 SinglyLinkedList a = new SinglyLinkedList();
+		 String path = "C:\\Users\\Moaz\\Pictures\\Saved Pictures" 
+		 + File.separator + "IMG_0558.jpg";
+		 if( (new File(path)).exists() )
+			 a.add(path);
+		  
 		 assertEquals(app.signin("moaz@gmail.com", "pass"),true);
 			
-		  Mail m=new Mail("moaz@gmail.com", "ads", subject,
-				  null, 2, null );
+		  Mail m=new Mail(Sender+"@gmail.com", subject , bodyText,
+				  null, priority, a );
 		  
 		  Queue z = new Queue();
 		  z.enqueue("mohamed@gmail.com");
@@ -53,7 +59,7 @@ public class AppTest {
 		  m.receivers = z;
 		  assertEquals(app.compose(m),true);
 		  
-		  z.enqueue("k@gmail.com");
+		  z.enqueue("k@gmailt.com");
 		  assertEquals(app.compose(m),false);
 		  
 	}
@@ -69,15 +75,17 @@ public class AppTest {
 		
 		generateNewContacts(); 
 		
-		for(Integer i=0; i<6; i++) {
+		for(Integer i=0; i<13; i++) {
 			bodyText.add("subject" + i.toString());
-			generateEmails("subject" + i.toString());
+			generateEmails("Sender" +((Integer)(i%5)).toString() ,
+					"subject" + i.toString(), i%5, "subject" + ((Integer)(i%5)).toString());
 		}
 	
 		test1();
-		
 		test2();
+		test3();
 	}
+	
 	
 	// check if receiver got emails
 	void test1() {
@@ -92,18 +100,18 @@ public class AppTest {
 			String text = (mails[i]).getBodyText();
 			assertEquals(text.equals( (String)bodyText.get(i) ), true);
 		}
+		
+		
 	}
 	
 	
 	// check if emails were put in send file
 	void test2() {
 		app = new App();
-
-		
 		
 		assertEquals(app.signin("moaz@gmail.com", "pass"),true);
 		Folder a = new Folder("Sent");
-		app.setViewingOptions(a, null, null);
+		app.setVeiwOptions("Sent",null, null, null);;
 		Mail[] mails = (Mail[])app.listEmails(1);
 		for(int i=0; i<mails.length; i++) {
 			
@@ -111,10 +119,28 @@ public class AppTest {
 				break;
 			
 			String text = (mails[i]).getBodyText();
-			System.out.println(text);
 			assertEquals(text.equals( (String)bodyText.get(i) ), true);
 		}
 	}
+	
+	void test3() {
+		app = new App();
+		
+		assertEquals(app.signin("mohamed@gmail.com", "pass"),true);
+	 	app.setVeiwOptions("Inbox", "Sender", null, null);;
+		Mail[] mails = (Mail[])app.listEmails(1);
+		for(int i=0; i<mails.length; i++) {
+			if(mails[i] == null)
+				break;
+			
+			String text = (mails[i]).getBodyText();
+			System.out.println("P-> "+ mails[i].getSender());
+		}
+		
+	
+	}
+	
+	
 	
 	
 }

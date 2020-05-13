@@ -11,16 +11,16 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.UUID;
 
-class Mail  implements  IMail, Serializable {
+public class Mail  implements  IMail, Serializable {
 		
 	private static final long serialVersionUID = -1546344480061265891L;
 	public Queue receivers=new Queue();
 	public String bodyText;
 	public MailBasicInfo basicInfo;
 	
-	Mail(){}
+	public Mail(){} 
 	
-    Mail(String sender, 
+    public Mail(String sender, 
     		String subject, String bodyText , String date, Integer priority,
     		SinglyLinkedList attachments){
     	
@@ -36,7 +36,6 @@ class Mail  implements  IMail, Serializable {
     
     
     public void store(String userPath, String folder) {
-    	System.out.println("new mail created");
     	setMailFolderPath(userPath, folder);
     	addToIndexFile();
     	try{
@@ -106,6 +105,10 @@ class Mail  implements  IMail, Serializable {
 	
 	public Date getDate() {
 		return Date.valueOf(basicInfo.date);
+	}
+	
+	public String getDateString() {
+		return basicInfo.date;
 	}
 	
 	public String getStatus() {

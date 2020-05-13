@@ -12,12 +12,12 @@ public class User implements IUser, Serializable {
 	}
 
 	private static final long serialVersionUID = 1L;
-	Contact user;
+	public Contact user;
 	SinglyLinkedList emails = new SinglyLinkedList();
 	SinglyLinkedList myContacts = new SinglyLinkedList();
 
 	// TODO: encrypt stored passwords
-	User(Contact user) {
+	public User(Contact user) {
 		this.user = user;
 		this.emails.add(user.getEmail());
 		try {

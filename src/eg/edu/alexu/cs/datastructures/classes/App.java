@@ -15,20 +15,17 @@ import java.io.IOException;
 
 public class App implements IApp, Serializable {
 	
-	/**
-	 * 
-	 */
-	
 	private static final long serialVersionUID = 1L;
 	protected static String rootPath;
 	protected static String accountsFolderPath;
 	public static String attachmentsFolderPath;
-	User currentUser;
+	public User currentUser;
 	protected static String SystemUsersPath;
 	Folder currentFolder;
 	Filter currentFilter;
-	Sort currentSort;
+	String currentSort;
 	SinglyLinkedList allMails;
+	
 	
 	
 	void setInitialFoldersPaths() {
@@ -51,9 +48,7 @@ public class App implements IApp, Serializable {
 		createInitialFolders(); 
 		createSystemUserFile();		
 		setDefaultViewOptions();
-		
-		
-		allMails = new SinglyLinkedList();
+
 	}
 	
 	public void createSystemUserFile()
@@ -71,13 +66,9 @@ public class App implements IApp, Serializable {
 	
 	@Override
 	public boolean signin(final String email, final String password) {
-
 		// TODO: uplaod contact library
-
 		boolean exist=false;
 		Authentication authenticate=new Authentication(SystemUsersPath,email,password);
-
-
 		try {
 			exist=authenticate.exist();
 		} catch (Exception e) {
@@ -121,10 +112,6 @@ public class App implements IApp, Serializable {
 				authenticate.addNewUser(false);
 			contact.setUserPath();
 			new User((Contact) contact);
-			
-			// if he has to sign in agian
-			// this.crrent user = new User((Contact) contact);
-
 		}
 		return exist?false:true;
 
@@ -135,25 +122,53 @@ public class App implements IApp, Serializable {
 		currentFolder = new Folder("inbox");
 		currentFilter = null;
 		currentSort = null;
-	}
-
-		@Override
-	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
-		this.currentFolder = (Folder) folder;
-		this.currentFilter = (Filter) filter;
-		this.currentSort = (Sort) sort;
+		
 	}
 
 	@Override
-	public IMail[] listEmails(int page) {
-		// pages Are 1,2,3,4
+	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
 		
-		// could be bigger but 1000 is enough here
+		getAllMails(); // get mails for currentfolder (1st option)
 		
-		final Integer numOfEmailsPerPage = 10;
-		SinglyLinkedList allMails = new SinglyLinkedList();
-		Mail[] mails = new Mail[numOfEmailsPerPage];
+		sortMails();
 		
+		if(currentFilter != null)
+			allMails = currentFilter.getFiltered();
+		
+		sortMails();
+	} 
+	
+	void sortMails() {
+		if(currentSort == "priority")
+			Sort.priority(allMails);
+		
+		else if(currentSort != null)
+			Sort.iterativeQuickSort(allMails, currentSort);
+	}
+	
+	public void setVeiwOptions(String folderName, String sortType, String 
+			filterType, String filterTarget) {
+		if(folderName != null) 
+			currentFolder = new Folder(folderName);
+		
+		currentSort = sortType;
+		
+		if(filterType != null && filterTarget != null) {
+			getAllMails();
+			currentFilter = new Filter(filterType, filterTarget,
+					this.allMails);
+		}
+		else 
+			currentFilter = null;
+		
+		setViewingOptions(currentFolder, currentFilter, null);
+	}
+	
+	
+		
+	void getAllMails() {
+		
+		allMails = new SinglyLinkedList();
 		String folderName = currentFolder.name;
 		String folderIndexFile = currentUser.user.getUserPath() +
 				File.separator + folderName + 
@@ -162,10 +177,6 @@ public class App implements IApp, Serializable {
 		Index.IndexFilePath = folderIndexFile;
 		DoubleLinkedList basicInfoMails =  Index.getListFromIndexFile();
 		
-		if(basicInfoMails.size() == 0)
-			return mails;
-		
-		
 		/// convert basicInfoMails to MailsArray (allMails)
 		
 		for(int i=0; i<basicInfoMails.size(); i++) {
@@ -173,10 +184,20 @@ public class App implements IApp, Serializable {
 			Mail mail = constructMail(mba);
 			allMails.add(mail);
 		}
-		System.out.println( "num of mails " + allMails.size());	
-		// get page from allMails
+	} 
+		
+	@Override
+	public IMail[] listEmails(int page) {
+		
+		if(allMails == null || allMails.size() == 0)
+			getAllMails(); 
+		
+		// pages Are 1,2,3,4
+		final Integer numOfEmailsPerPage = 10;
+		Mail[] mails = new Mail[numOfEmailsPerPage];
+		
 		int counter=0;
-		int numOfPages = basicInfoMails.size() / numOfEmailsPerPage;
+		int numOfPages = allMails.size() / numOfEmailsPerPage;
 		int start = (page-1) * (numOfEmailsPerPage);
 		for(int i=start; i<start + numOfEmailsPerPage; i++) {
 			
@@ -204,14 +225,13 @@ public class App implements IApp, Serializable {
 	@Override
 	public boolean compose(IMail email) {
 		
-		
 		Mail mail = (Mail) email;
-		
 		Queue recievers = mail.receivers;
+		String userPath = this.currentUser.user.getUserPath();
+		
 		if(!validateRecievers(recievers))
 			return false;
 		
-		String userPath = this.currentUser.user.getUserPath();
 		mail.store(userPath, "sent");
 		
 		/// put emails in recievers' files and add them to index Files

@@ -31,7 +31,7 @@ class PriorityQueue implements IPriorityQueue,Serializable{
 		x.key = key;
 		x.element=item;
 		if(size()==0) {
-			head=tail=x;
+			head=tail=x; 
 			x.next=null;
 		}
 		else if(size()==1) {

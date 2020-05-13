@@ -13,18 +13,27 @@ class Sort implements ISort {
 	 * @param mails
 	 */
 	public static void priority(SinglyLinkedList mails) {
+		System.out.println(mails.size());
 		if (mails.head == null)
 			throw new RuntimeException();
 		PriorityQueue q = new PriorityQueue();
 		for (int i = 0; i < mails.size(); i++) {
+			
 			Mail mail = (Mail) mails.get(i);
+		//	System.out.println(mail.getPriority());
+	//		System.out.println(mail.getSubject());
+			
 			q.insert(mail, mail.getPriority());
 		}
 		mails.clear();
 		int queueSize = q.size();
-		for (int i = 0; i < queueSize; i++)
-			mails.add(q.removeMin());
-
+		//System.out.println(q.size());
+		
+		for (int i = 0; i < queueSize; i++) {
+		//	System.out.println(i);
+			Object k = q.removeMin();
+			mails.add(k);
+		}
 	}
 
 	public static void iterativeQuickSort(SinglyLinkedList mails, String sortType) {
@@ -59,7 +68,7 @@ class Sort implements ISort {
 		int low = start;
 		int high = end - 2;
 		Mail piv = (Mail) mails.get(position);
-		String pivot = piv.getBodyText();
+		String pivot = piv.bodyText;
 		swap(mails, position, end - 1);
 
 		while (low < high) {
@@ -67,10 +76,10 @@ class Sort implements ISort {
 			Mail l = (Mail) mails.get(low);
 			Mail h = (Mail) mails.get(high);
 
-			if ((l.getBodyText()).compareTo(pivot) < 0) {
+			if ((l.bodyText).compareTo(pivot) < 0) {
 				low++;
 			} 
-			else if (!((h.getBodyText()).compareTo(pivot) < 0)) {
+			else if (!((h.bodyText).compareTo(pivot) < 0)) {
 				high--;
 			} 
 			else {
@@ -80,7 +89,7 @@ class Sort implements ISort {
 
 		int index = high;
 		Mail h = (Mail) mails.get(high);
-		if ((h.getBodyText()).compareTo(pivot) < 0) {
+		if ((h.bodyText).compareTo(pivot) < 0) {
 			index++;
 		}
 		swap(mails, end - 1, index);
@@ -168,15 +177,15 @@ class Sort implements ISort {
 		int low = start;
 		int high = end - 2;
 		Mail piv = (Mail) mails.get(position);
-		Date pivot = (Date) (piv.getDate());
+		Date pivot = Date.valueOf(piv.getDateString());
 		swap(mails, position, end - 1);
 		while (low < high) {
 			Mail l = (Mail) mails.get(low);
 			Mail h = (Mail) mails.get(high);
-			if ((l.getDate()).compareTo(pivot) >= 0) {
+			if (Date.valueOf(l.getDateString()).compareTo(pivot) >= 0) {
 				low++;
 			} 
-			else if (!(((h.getDate()).compareTo(pivot) >= 0))) {
+			else if (!((Date.valueOf(h.getDateString()).compareTo(pivot) >= 0))) {
 				high--;
 			} 
 			else {
@@ -186,7 +195,7 @@ class Sort implements ISort {
 		int index = high;
 		Mail h = (Mail) mails.get(high);
 
-		if ((h.getDate()).compareTo(pivot) >= 0) {
+		if (Date.valueOf(h.getDateString()).compareTo(pivot) >= 0) {
 			index++;
 		}
 		swap(mails, end - 1, index);
