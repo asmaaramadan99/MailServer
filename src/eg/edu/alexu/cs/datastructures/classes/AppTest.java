@@ -72,7 +72,7 @@ public class AppTest {
 		// delete root DIR
 		FileManager.deleteDir(new File(app.rootPath));
 		
-		
+		 
 		generateNewContacts(); 
 		
 		for(Integer i=0; i<13; i++) {

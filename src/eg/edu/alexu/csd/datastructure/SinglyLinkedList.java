@@ -1,8 +1,9 @@
 package eg.edu.alexu.csd.datastructure;
 
 import java.io.Serializable;
+import MyDataStructures.ILinkedList;
 
-public class SinglyLinkedList implements Serializable{
+public class SinglyLinkedList implements ILinkedList, Serializable{
 
 	private static final long serialVersionUID = 1L;
 	

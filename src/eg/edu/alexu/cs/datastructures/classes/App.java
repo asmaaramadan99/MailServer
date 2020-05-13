@@ -1,4 +1,5 @@
 package eg.edu.alexu.cs.datastructures.classes;
+
 import eg.edu.alexu.csd.datastructure.SinglyLinkedList;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
 import eg.edu.alexu.csd.datastructure.DoubleLinkedList;
@@ -214,17 +215,35 @@ public class App implements IApp, Serializable {
 
 	@Override
 	public void deleteEmails(ILinkedList mails) {
-			
-	}
+		Index.IndexFilePath=this.currentUser.user.getUserPath()+File.separator+
+				currentFolder.name +File.separator+"index.txt";
+        
+		for(int i=0; i<mails.size(); i++) {
+			Mail a = (Mail)mails.get(i);
+			String ID = a.getBasicInfo().ID;
+			Index.manipulateIndexInfo(null, ID, "remove");
+		}
+	} 
 
-	@Override
+	@Override 
 	public void moveEmails(ILinkedList mails, IFolder des) {
-		
+		Index.IndexFilePath=this.currentUser.user.getUserPath()+File.separator+
+				currentFolder.name +File.separator+"index.txt";
+        
+		Folder dest = (Folder)des;
+		String destination = this.currentUser.user.getUserPath()+
+				File.separator+ dest.name +File.separator+
+				"index.txt";
+		for(int i=0; i<mails.size(); i++) {
+			Mail a = (Mail)mails.get(i);
+			String ID = a.getBasicInfo().ID;
+			Index.manipulateIndexInfo(destination, ID, "move");
+		}
 	}
 
 	@Override
 	public boolean compose(IMail email) {
-		
+		 
 		Mail mail = (Mail) email;
 		Queue recievers = mail.receivers;
 		String userPath = this.currentUser.user.getUserPath();

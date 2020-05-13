@@ -1,6 +1,6 @@
 package eg.edu.alexu.cs.datastructures.classes;
 
-import eg.edu.alexu.csd.datastructure.*;
+import eg.edu.alexu.csd.datastructure.*; 
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,6 +12,8 @@ import java.io.IOException;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
 import java.time.LocalDate;
 import java.util.UUID;
+
+import MyDataStructures.ILinkedList;
 
 public class Main {
 
@@ -54,7 +56,7 @@ public class Main {
 	}
 	
 	static void newEmails() {
-
+ 
 		  App app = new App();
 		  System.out.println(app.signin("ahmed@gmail.com","pass"));
 		  String a = new String ("C:\\Users\\Moaz\\Deskt"
@@ -163,12 +165,46 @@ public class Main {
 		 */
 	}
 	
+	
+	static void testMoveAndRemove() {
+		App app = new App();
+		
+		app.signin("ahmed@gmail.com", "pass");
+
+		app.setVeiwOptions("Inbox", null,null,null);
+		Mail[] mails = (Mail[])app.listEmails(1);
+		SinglyLinkedList b = new SinglyLinkedList();
+		for(int i=0; i<Math.min(mails.length,4); i++) {
+			if(mails[i] == null)
+				break;
+			
+			String text = (mails[i]).getBodyText();
+			System.out.println(text);
+			b.add(mails[i]);
+		} 
+		Folder des = new Folder("Sent");
+		app.moveEmails(b, des);
+		
+		app.setVeiwOptions(des.name, null, null, null);
+		mails = (Mail[])app.listEmails(1); 
+		
+		for(int i=0; i<Math.min(mails.length,3); i++) {
+			if(mails[i] == null)
+				break;
+			
+			String text = (mails[i]).getBodyText();
+			System.out.println(text);
+			b.add(mails[i]);
+		}
+	}
+	
 	public static void main(String args[]) {
 		
 		//generateUsers();
 		//newEmails();h
-		getMails();
+		//getMails();
 	//	PQandSort();
+		 testMoveAndRemove();
 		
 		//filterShit();
 		

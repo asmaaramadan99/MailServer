@@ -38,7 +38,7 @@ public class Mail  implements  IMail, Serializable {
     public void store(String userPath, String folder) {
     	setMailFolderPath(userPath, folder);
     	addToIndexFile();
-    	try{
+    	try{ 
     		createMailFolder();
     	} catch(Exception e) {
     		e.printStackTrace();
