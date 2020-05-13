@@ -51,16 +51,22 @@ public class AppTest {
 		  z.enqueue("mohamed@gmail.com");
 		  z.enqueue("ahmed@gmail.com");
 		  m.receivers = z;
-		  System.out.print(app.compose(m));
+		  assertEquals(app.compose(m),true);
 		  
-		  System.out.println(m.getBodyText());
+		  z.enqueue("k@gmail.com");
+		  assertEquals(app.compose(m),false);
+		  
 	}
 	
 	
 	@Test
 	public void test() {
 		app = new App();
+		
+		// delete root DIR
 		FileManager.deleteDir(new File(app.rootPath));
+		
+		
 		generateNewContacts(); 
 		
 		for(Integer i=0; i<6; i++) {
@@ -68,11 +74,12 @@ public class AppTest {
 			generateEmails("subject" + i.toString());
 		}
 	
-	//	test1();
+		test1();
 		
-		//test2();
+		test2();
 	}
 	
+	// check if receiver got emails
 	void test1() {
 		app = new App();
 		
@@ -87,6 +94,8 @@ public class AppTest {
 		}
 	}
 	
+	
+	// check if emails were put in send file
 	void test2() {
 		app = new App();
 
@@ -103,7 +112,7 @@ public class AppTest {
 			
 			String text = (mails[i]).getBodyText();
 			System.out.println(text);
-			//assertEquals(text.equals( (String)bodyText.get(i) ), true);
+			assertEquals(text.equals( (String)bodyText.get(i) ), true);
 		}
 	}
 	
