@@ -125,16 +125,16 @@ public class AppTest {
 	
 	void test3() {
 		app = new App();
-		
+		 
 		assertEquals(app.signin("mohamed@gmail.com", "pass"),true);
-	 	app.setVeiwOptions("Inbox", "Sender", null, null);;
+	 	app.setVeiwOptions("Inbox", null, null, null);
 		Mail[] mails = (Mail[])app.listEmails(1);
 		for(int i=0; i<mails.length; i++) {
 			if(mails[i] == null)
 				break;
 			
-			String text = (mails[i]).getBodyText();
-			System.out.println("P-> "+ mails[i].getSender());
+			//String text = (mails[i]).getBodyText();
+			System.out.println("P-> "+ mails[i].getSubject());
 		}
 		
 	

@@ -16,18 +16,16 @@ import java.io.IOException;
 
 public class App implements IApp, Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private  final long serialVersionUID = 1L;
 	protected static String rootPath;
-	protected static String accountsFolderPath;
+	protected static  String accountsFolderPath;
 	public static String attachmentsFolderPath;
-	public User currentUser;
-	protected static String SystemUsersPath;
-	Folder currentFolder;
+	public User currentUser; 
+	protected String SystemUsersPath;
+	public Folder currentFolder;
 	Filter currentFilter;
 	String currentSort;
 	SinglyLinkedList allMails;
-	
-	
 	
 	void setInitialFoldersPaths() {
 		rootPath = System.getProperty("user.dir")+ File.separator + "root"; 
@@ -66,7 +64,7 @@ public class App implements IApp, Serializable {
 	}
 	
 	@Override
-	public boolean signin(final String email, final String password) {
+	public boolean signin(String email, String password) {
 		// TODO: uplaod contact library
 		boolean exist=false;
 		Authentication authenticate=new Authentication(SystemUsersPath,email,password);
@@ -78,6 +76,7 @@ public class App implements IApp, Serializable {
 		}
 		if(exist&&authenticate.matchPass)
 		{   Contact c=authenticate.getCurrentUser();
+			c.setUserPath();
 			this.currentUser=(User) FileManager.getFile(c.getUserPath()+File.separator+"userInfo.bin");
 		}
 
@@ -88,7 +87,7 @@ public class App implements IApp, Serializable {
 	
 
 	@Override
-	public boolean signup(final IContact contact) {
+	public boolean signup(IContact contact) {
 
 		Authentication authenticate=new Authentication(SystemUsersPath,contact);
 		if(!authenticate.isValidEmailFormat())
@@ -164,8 +163,6 @@ public class App implements IApp, Serializable {
 		
 		setViewingOptions(currentFolder, currentFilter, null);
 	}
-	
-	
 		
 	void getAllMails() {
 		
@@ -224,7 +221,7 @@ public class App implements IApp, Serializable {
 			Index.manipulateIndexInfo(null, ID, "remove");
 		}
 	} 
-
+ 
 	@Override 
 	public void moveEmails(ILinkedList mails, IFolder des) {
 		Index.IndexFilePath=this.currentUser.user.getUserPath()+File.separator+
@@ -311,7 +308,7 @@ public class App implements IApp, Serializable {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
+	 		return false;
 		}
 		
 		return ans;

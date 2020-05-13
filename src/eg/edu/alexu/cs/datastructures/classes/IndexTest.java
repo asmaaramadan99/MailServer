@@ -17,7 +17,7 @@ public class IndexTest {
        
         App myapp=new App();
         Contact m = new Contact("a@gmail.com", "pass");
-        m.setName("asmaa"); 
+        m.setName("asmaa");
         m.setUserPath();
         System.out.println((myapp.signup(m)));
         System.out.println(myapp.signin("a@gmail.com","pass"));
@@ -33,7 +33,7 @@ public class IndexTest {
         Index.manipulateIndexInfo(myapp.currentUser.user.getUserPath()+File.separator+"Drafts"+File.separator+"index.txt",id,"move");
         //draft folder
         System.out.println(Index.IndexFilePath);
-        l=Index.getListFromIndexFile(); 
+        l=Index.getListFromIndexFile();
         //became 1
         System.out.println(l.size());
         //back to inbox

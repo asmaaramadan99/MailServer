@@ -4,7 +4,7 @@ import eg.edu.alexu.cs.datastructures.Interfaces.IFilter;
 import eg.edu.alexu.csd.datastructure.SinglyLinkedList;
 import eg.edu.alexu.csd.datastructure.Stack;
 
-class Filter implements IFilter {
+public class Filter implements IFilter {
 
 	private String filter; // subject priority sender
 	private Object target; // value
@@ -16,9 +16,8 @@ class Filter implements IFilter {
 		this.target = target;
 		this.emails = emails;
 		filtered = new SinglyLinkedList();
-
 	}
-
+ 
 	public SinglyLinkedList getFiltered() {
 
 		return binarySearch();

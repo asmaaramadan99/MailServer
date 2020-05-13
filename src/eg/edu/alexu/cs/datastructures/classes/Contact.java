@@ -21,7 +21,7 @@ public class Contact implements IContact,Serializable{
     private String userPath;
 
     
-    Contact(){}
+    public Contact(){}
     public Contact(String email, String password){
     	this.email = email.toLowerCase();
     	this.password = password;

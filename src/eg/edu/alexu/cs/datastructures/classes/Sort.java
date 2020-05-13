@@ -5,7 +5,7 @@ import eg.edu.alexu.csd.datastructure.SinglyLinkedList;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
 import java.sql.Date;
 
-class Sort implements ISort {
+public class Sort implements ISort {
 
 	/**
 	 * sorting according to priority
@@ -47,13 +47,13 @@ class Sort implements ISort {
 				continue;
 			}
 			int p = start + ((end - start) / 2);
-			if (sortType.equals("Default"))
+			if (sortType.equals("default"))
 				p = partitionDate(mails, p, start, end);
-			else if (sortType.equals("Subject"))
+			else if (sortType.equals("subject"))
 				p = partitionSubject(mails, p, start, end);
-			else if (sortType.equals("Sender"))
+			else if (sortType.equals("sender"))
 				p = partitionSender(mails, p, start, end);
-			else if (sortType.equals("Body"))
+			else if (sortType.equals("body"))
 				p = partitionBody(mails, p, start, end);
 
 			stack.push(p + 1);

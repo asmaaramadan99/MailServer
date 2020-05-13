@@ -19,14 +19,14 @@ import eg.edu.alexu.cs.datastructures.Interfaces.*;
  */
 
 
-class Folder implements IFolder,Serializable {
+public class Folder implements IFolder,Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	public String name;
 	
-	Folder(String name){
+	public Folder(String name){
 		this.name = name;
 	}
 	

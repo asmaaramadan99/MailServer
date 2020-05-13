@@ -1,4 +1,4 @@
-package application;
+package idk;
 
 import java.io.File;
 import java.util.Date;
@@ -31,7 +31,7 @@ public class SendEmailController {
 		        "3",
 		        "4",
 		        "5"
-		    ); 
+		    );
   @FXML
   private TextField recievers;
   @FXML

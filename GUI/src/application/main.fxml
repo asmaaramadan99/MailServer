@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+ 
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #2b1f31;" xmlns="http://j...content-available-to-author-only...x.com/javafx/8.0.171" xmlns:fx="http://j...content-available-to-author-only...x.com/fxml/1" fx:controller="application.MainPageController">
+   <children>
+      <AnchorPane layoutX="344.0" prefHeight="418.0" prefWidth="362.0" snapToPixel="false" style="-fx-background-color: #413d65;">
+         <effect>
+            <Glow />
+         </effect>
+         <children>
+            <PasswordField id="signInPass" fx:id="signInPass" layoutX="57.0" layoutY="178.0" prefHeight="31.0" prefWidth="245.0" promptText="Password" />
+            <Button id="SigninBt" fx:id="signInBt" graphicTextGap="6.0" layoutX="125.0" layoutY="250.0" mnemonicParsing="false" onAction="#SignIn" prefHeight="31.0" prefWidth="96.0" style="-fx-background-color: #5fb9b0;" text="Sign in" textFill="#2b1f31" />
+            <TextField id="signInEmail" fx:id="signInEmail" layoutX="58.0" layoutY="116.0" prefHeight="31.0" prefWidth="245.0" promptText="Email" />
+            <Label layoutX="113.0" prefHeight="115.0" prefWidth="245.0" text="MAIL SERVER" textFill="#bef992">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="signInStatus" layoutX="58.0" layoutY="323.0" prefHeight="31.0" prefWidth="245.0" textFill="#bef992" />
+         </children> 
+      </AnchorPane>
+      <TextField id="signUpEmail" fx:id="signUpName" layoutX="39.0" layoutY="115.0" prefHeight="31.0" prefWidth="245.0" promptText=" Name " />
+      <PasswordField id="signUpPass" fx:id="signUpPass" layoutX="39.0" layoutY="209.0" prefHeight="31.0" prefWidth="245.0" promptText="Password" />
+      <Button id="signUpBt" fx:id="signUpBt" graphicTextGap="6.0" layoutX="119.0" layoutY="347.0" mnemonicParsing="false" onAction="#SignUp" prefHeight="31.0" prefWidth="96.0" style="-fx-background-color: #bef992;" text="Sign up" textFill="#2b1f31" />
+      <Label layoutX="39.0" layoutY="59.0" prefHeight="21.0" prefWidth="226.0" text="Create new account" textFill="#5fb9b0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="signUpStatus" layoutX="44.0" layoutY="326.0" prefHeight="21.0" prefWidth="245.0" textFill="#bef992" />
+      <TextField id="signUpEmail" fx:id="signUpEmail" layoutX="39.0" layoutY="164.0" prefHeight="31.0" prefWidth="245.0" promptText=" Email" />
+      <TextField id="signUpEmail" fx:id="signUpBirthday" layoutX="39.0" layoutY="251.0" prefHeight="31.0" prefWidth="245.0" promptText="Birthday" />
+   </children>
+</AnchorPane>

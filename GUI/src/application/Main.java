@@ -26,6 +26,19 @@ public class Main extends Application {
 	public void start(Stage MainPage) throws Exception {
 		// TODO Auto-generated method stub
 		
+		FXMLLoader loader= new FXMLLoader(getClass().getResource("main.fxml"));
+		Parent root = loader.load();
+		
+		/*SendEmailController k = loader.getController();
+		System.out.println(app); 
+		k.setApp(app);
+		*/
+		
+		Scene scene =new Scene(root,700,500);
+		MainPage.setTitle("Mail Server");
+		MainPage.setResizable(false);
+		MainPage.setScene(scene);
+		MainPage.show();
 		//sendEmailPage(app);
         //viewMailPage(app, a);
 	}
