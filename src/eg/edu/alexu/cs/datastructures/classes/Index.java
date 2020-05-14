@@ -7,7 +7,7 @@ import eg.edu.alexu.csd.datastructure.DoubleLinkedList;
 public class Index {
    
  
-    static String IndexFilePath;
+    public static String IndexFilePath;
    
     public static void writeToIndexFile(MailBasicInfo basicInfo)
     { 

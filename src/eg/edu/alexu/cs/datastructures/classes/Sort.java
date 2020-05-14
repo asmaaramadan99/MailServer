@@ -1,6 +1,7 @@
 package eg.edu.alexu.cs.datastructures.classes;
 
 import MyDataStructures.*;
+import eg.edu.alexu.csd.datastructure.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.SinglyLinkedList;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
 import java.sql.Date;
@@ -12,7 +13,7 @@ public class Sort implements ISort {
 	 * 
 	 * @param mails
 	 */
-	public static void priority(SinglyLinkedList mails) {
+	public static void priority(DoubleLinkedList mails) {
 		System.out.println(mails.size());
 		if (mails.head == null)
 			throw new RuntimeException();
@@ -36,7 +37,7 @@ public class Sort implements ISort {
 		}
 	}
 
-	public static void iterativeQuickSort(SinglyLinkedList mails, String sortType) {
+	public static void iterativeQuickSort(DoubleLinkedList mails, String sortType) {
 		Stack stack = new Stack();
 		stack.push(0);
 		stack.push(mails.size());
@@ -64,7 +65,7 @@ public class Sort implements ISort {
 
 	}
 
-	private static int partitionBody(SinglyLinkedList mails, int position, int start, int end) {
+	private static int partitionBody(DoubleLinkedList mails, int position, int start, int end) {
 		int low = start;
 		int high = end - 2;
 		Mail piv = (Mail) mails.get(position);
@@ -97,7 +98,7 @@ public class Sort implements ISort {
 		return index;
 	}
 
-	private static int partitionSender(SinglyLinkedList mails, int position, int start, int end) {
+	private static int partitionSender(DoubleLinkedList mails, int position, int start, int end) {
 		int low = start;
 		int high = end - 2;
 		Mail piv = (Mail) mails.get(position);
@@ -130,7 +131,7 @@ public class Sort implements ISort {
 		return index;
 	}
 
-	private static int partitionSubject(SinglyLinkedList mails, int position, int start, int end) {
+	private static int partitionSubject(DoubleLinkedList mails, int position, int start, int end) {
 		int low = start;
 		int high = end - 2;
 		Mail piv = (Mail) mails.get(position);
@@ -173,7 +174,7 @@ public class Sort implements ISort {
 	 * @return
 	 */
 
-	private static int partitionDate(SinglyLinkedList mails, int position, int start, int end) {
+	private static int partitionDate(DoubleLinkedList mails, int position, int start, int end) {
 		int low = start;
 		int high = end - 2;
 		Mail piv = (Mail) mails.get(position);
@@ -202,7 +203,7 @@ public class Sort implements ISort {
 		return index;
 	}
 
-	public static void swap(SinglyLinkedList mails, int i, int j) {
+	public static void swap(DoubleLinkedList mails, int i, int j) {
 		Mail temp = (Mail) mails.get(i);
 		mails.set(i, mails.get(j));
 		mails.set(j, temp);

@@ -122,9 +122,8 @@ public class MainPageController{
  
  
   public void chooseFolder(String folder) throws IOException {
- 
+	  listView.getItems().clear();
 	  myApp.setVeiwOptions(folder, null, null, null);
-	  
 	  
 	  int p= Integer.parseInt(page.getText());
 	  IMail [] mail=new IMail[10];
@@ -154,7 +153,7 @@ public class MainPageController{
 	  chooseFolder("Drafts");
   }
   public void openSent(ActionEvent event) throws IOException {
-	  chooseFolder("Sent");
+	  chooseFolder("Sent"); 
   }
  
  
@@ -169,7 +168,37 @@ public class MainPageController{
   }
  
   public void sort(ActionEvent event) {
+	  String type=comboBoxSort.getValue();
 	  
+		MailBasicInfo[] array=new MailBasicInfo [10];
+		Index.IndexFilePath=myApp.currentUser.user.getUserPath()+File.separator+myApp.currentFolder.name+File.separator+"index.txt";
+		System.out.println(Index.IndexFilePath);
+	 
+		DoubleLinkedList list=new DoubleLinkedList();
+	    list=Index.getListFromIndexFile();
+	    System.out.println(list.size());
+	 
+		if(type=="Priority")
+			Sort.priority(list);
+		else
+			Sort.iterativeQuickSort(list, type);
+	 
+		for(int i=0;i<list.size();i++) {
+			if(list.get(i)!=null)
+			array[i]=(MailBasicInfo) list.get(i);
+		}
+	 
+	 
+		  listView.getItems().clear();
+	 
+		  for(int i=0;i<array.length;i++) {
+			  MailBasicInfo n=new MailBasicInfo();
+			  n= (MailBasicInfo) array[i];
+			  if(n!=null) {
+			  listView.getItems().add("Subject: "+n.subject);
+			  }
+	 
+		  }
   }
 	
 

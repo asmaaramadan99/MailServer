@@ -31,5 +31,9 @@ public class MailBasicInfo implements Serializable{
 		this.attachements = attachments;
     }
 
+	public MailBasicInfo() {
+		// TODO Auto-generated constructor stub
+	}
+
 	
 }

@@ -25,7 +25,7 @@ public class App implements IApp, Serializable {
 	public Folder currentFolder;
 	Filter currentFilter;
 	String currentSort;
-	SinglyLinkedList allMails;
+	DoubleLinkedList allMails;
 	
 	void setInitialFoldersPaths() {
 		rootPath = System.getProperty("user.dir")+ File.separator + "root"; 
@@ -145,7 +145,7 @@ public class App implements IApp, Serializable {
 		else if(currentSort != null)
 			Sort.iterativeQuickSort(allMails, currentSort);
 	}
-	
+	 
 	public void setVeiwOptions(String folderName, String sortType, String 
 			filterType, String filterTarget) {
 		if(folderName != null) 
@@ -166,7 +166,7 @@ public class App implements IApp, Serializable {
 		
 	void getAllMails() {
 		
-		allMails = new SinglyLinkedList();
+		allMails = new DoubleLinkedList();
 		String folderName = currentFolder.name;
 		String folderIndexFile = currentUser.user.getUserPath() +
 				File.separator + folderName + 

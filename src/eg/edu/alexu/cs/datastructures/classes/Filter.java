@@ -1,6 +1,7 @@
 package eg.edu.alexu.cs.datastructures.classes;
 import java.sql.Date;
 import eg.edu.alexu.cs.datastructures.Interfaces.IFilter;
+import eg.edu.alexu.csd.datastructure.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.SinglyLinkedList;
 import eg.edu.alexu.csd.datastructure.Stack;
 
@@ -8,23 +9,25 @@ public class Filter implements IFilter {
 
 	private String filter; // subject priority sender
 	private Object target; // value
-	private SinglyLinkedList emails;
-	private SinglyLinkedList filtered;
+	private DoubleLinkedList emails;
+	private DoubleLinkedList filtered;
 
-	Filter(String filter, Object target, SinglyLinkedList emails) {
+	Filter(String filter, Object target, DoubleLinkedList emails) {
 		this.filter = filter;
-		this.target = target;
+		this.target = target; 
 		this.emails = emails;
-		filtered = new SinglyLinkedList();
+		filtered = new DoubleLinkedList();
 	}
  
-	public SinglyLinkedList getFiltered() {
+	public DoubleLinkedList getFiltered() {
 
 		return binarySearch();
 	}
 
-	public SinglyLinkedList binarySearch() {
+	public DoubleLinkedList binarySearch() {
 
+		Sort sort = new Sort();
+		Sort.iterativeQuickSort(emails, target.toString());
 		Stack upper = new Stack();
 		Stack lower = new Stack();
 		int position = 0;
