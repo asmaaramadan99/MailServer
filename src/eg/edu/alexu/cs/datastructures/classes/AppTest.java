@@ -12,7 +12,7 @@ import eg.edu.alexu.csd.datastructure.SinglyLinkedList;
 public class AppTest {
 	App app;
 	SinglyLinkedList bodyText = new SinglyLinkedList();
-	
+	 
 	void generateNewContacts() {
 		app = new App();
 		

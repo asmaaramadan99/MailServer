@@ -125,7 +125,7 @@ public class App implements IApp, Serializable {
 		
 	}
 
-	@Override
+	@Override 
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
 		
 		getAllMails(); // get mails for currentfolder (1st option)

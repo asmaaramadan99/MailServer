@@ -1,4 +1,5 @@
 package application; 
+import java.awt.Button;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -27,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
  
@@ -34,13 +36,15 @@ public class MainPageController{
  
  
   App myApp=new App();
- 
+  IMail [] mail;
   public App getApp() {
 		return myApp;
 	}
  
 	public void setApp(App myApp) {
 		this.myApp = myApp;
+		
+		initMainPageStuff();
 	}
  
  
@@ -72,6 +76,11 @@ public class MainPageController{
   @FXML  
   private TextField searchFor;
  
+  
+  void initMainPageStuff() {
+	  listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+	  
+  }
   @FXML
   public void SignIn(ActionEvent event) throws Exception
   {   
@@ -109,13 +118,11 @@ public class MainPageController{
  
  
 	  if(myApp.signup(contact))
-	  {
 		  signUpStatus.setText("You signed up successfully");
-	  }
+	  
 	  else
-	  {
 		  signUpStatus.setText("Sign up failed");  
-	  }
+	  
   }
  
  
@@ -126,7 +133,7 @@ public class MainPageController{
 	  myApp.setVeiwOptions(folder, null, null, null);
 	  
 	  int p= Integer.parseInt(page.getText());
-	  IMail [] mail=new IMail[10];
+	  
 	  mail=myApp.listEmails(p);
 	  System.out.println(mail.length);
  
@@ -134,8 +141,10 @@ public class MainPageController{
 		  Mail n=new Mail();
 		  n= (Mail) mail[i];
 		  if(n!=null) 
-			  listView.getItems().add("Subject: "+n.basicInfo.subject );
+			  listView.getItems().addAll("Subject: "+n.basicInfo.subject );
 		  
+		  else
+			  break;
 	  } 
 		  
  
@@ -166,7 +175,68 @@ public class MainPageController{
 	  comboBoxSort.setItems(sortList);
  
   }
- 
+  
+  
+  @FXML
+  public void openEmail() throws IOException {
+	  ObservableList selectedIndices = listView.getSelectionModel().getSelectedIndices();
+
+      for(Object o : selectedIndices){
+    	  int index = (int)(o.toString()).charAt(0);
+    	  index -= 48;
+          System.out.println(index);
+          System.out.println(index);
+          Mail m = (Mail)mail[index];
+          viewMailPage(myApp,m);
+      }
+  }
+  
+  @FXML 
+  public void compose() {
+	//  System.out.println(123);
+	  try {
+		sendEmailPage(myApp);
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+  }
+  
+  public void sendEmailPage(App app) throws Exception {
+		
+	Stage sendEmailPage = new Stage();
+	FXMLLoader loader= new FXMLLoader(getClass().getResource("SendEmail.fxml"));
+	Parent root = loader.load();
+	
+	SendEmailController k = loader.getController();
+	System.out.println(app);
+	k.setApp(app);
+	
+	
+	Scene scene =new Scene(root,700,500);
+	sendEmailPage.setTitle("Mail Server");
+	sendEmailPage.setResizable(false);
+	sendEmailPage.setScene(scene);
+	sendEmailPage.show();
+  }
+  
+
+	public void viewMailPage(App app,Mail mail) throws IOException {
+		Stage sendEmailPage = new Stage();
+		FXMLLoader loader= new FXMLLoader(getClass().getResource("viewEmail.fxml"));
+		Parent root = loader.load();
+
+		viewEmailController c = loader.getController();
+		c.setApp(app);
+		c.setMail( mail );
+		
+		Scene scene =new Scene(root,600,500);
+		sendEmailPage.setTitle("Mail Server");
+		sendEmailPage.setResizable(false);
+		sendEmailPage.setScene(scene);
+		sendEmailPage.show();
+	}
+  
   public void sort(ActionEvent event) {
 	  String type=comboBoxSort.getValue();
 	  
@@ -202,6 +272,7 @@ public class MainPageController{
   }
 	
 
+  
   public void filter(ActionEvent event) {
   }
 
