@@ -36,6 +36,9 @@ public class viewEmailController {
   private Label sender;
   
   @FXML
+  private Label priority;
+  
+  @FXML
   private TextArea bodyText;
   
   @FXML
@@ -76,6 +79,7 @@ public class viewEmailController {
 	  sender.setText("From: " + mail.getSender());
 	  subject.setText("Subject: " + mail.getSubject());
 	  bodyText.setText(mail.getBodyText());
+	  priority.setText(((Integer)(mail.getPriority())).toString());
 	  attachments = mail.getattachments();
 	  if(attachments == null)
 		  attachments = new SinglyLinkedList();

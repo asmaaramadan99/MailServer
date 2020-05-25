@@ -76,10 +76,14 @@ public class MainPageController{
   @FXML  
   private TextField searchFor;
  
+  ObservableList <String> filterList= FXCollections.observableArrayList("date","priority","sender");
+  ObservableList <String> sortList= FXCollections.observableArrayList("Default","Priority","Sender","Subject","Body");
+ 
   
   void initMainPageStuff() {
 	  listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-	  
+	  comboBoxFilter.setItems(filterList);
+	  comboBoxSort.setItems(sortList);  
   }
   @FXML
   public void SignIn(ActionEvent event) throws Exception
@@ -163,17 +167,14 @@ public class MainPageController{
   }
   public void openSent(ActionEvent event) throws IOException {
 	  chooseFolder("Sent"); 
-  }
+  } 
  
- 
-  ObservableList <String> filterList= FXCollections.observableArrayList("date","priority","sender");
-  ObservableList <String> sortList= FXCollections.observableArrayList("Default","Priority","Sender","Subject","Body");
  
   @FXML
   public void comboFilter() {
+	  /*
 	  comboBoxFilter.setItems(filterList);
-	  comboBoxSort.setItems(sortList);
- 
+	  comboBoxSort.setItems(sortList);*/
   }
   
   
@@ -238,37 +239,66 @@ public class MainPageController{
 	}
   
   public void sort(ActionEvent event) {
-	  String type=comboBoxSort.getValue();
 	  
-		MailBasicInfo[] array=new MailBasicInfo [10];
-		Index.IndexFilePath=myApp.currentUser.user.getUserPath()+File.separator+myApp.currentFolder.name+File.separator+"index.txt";
-		System.out.println(Index.IndexFilePath);
-	 
-		DoubleLinkedList list=new DoubleLinkedList();
-	    list=Index.getListFromIndexFile();
-	    System.out.println(list.size());
-	 
-		if(type=="Priority")
-			Sort.priority(list);
-		else
-			Sort.iterativeQuickSort(list, type);
-	 
-		for(int i=0;i<list.size();i++) {
-			if(list.get(i)!=null)
-			array[i]=(MailBasicInfo) list.get(i);
-		}
-	 
-	 
-		  listView.getItems().clear();
-	 
-		  for(int i=0;i<array.length;i++) {
-			  MailBasicInfo n=new MailBasicInfo();
-			  n= (MailBasicInfo) array[i];
-			  if(n!=null) {
-			  listView.getItems().add("Subject: "+n.subject);
-			  }
-	 
+	  String type=comboBoxSort.getValue().toLowerCase();
+	  
+	  if(type.equals("default"))
+		  type = null;
+	  
+	  listView.getItems().clear();
+	  
+	  if(type.equals("priority"))
+		  myApp.setVeiwOptions(null, "priority", null, null);
+	  
+	  else
+		  myApp.setVeiwOptions(null, type, null, null);
+		
+	  int p= Integer.parseInt(page.getText());
+	  
+	  mail=myApp.listEmails(p);
+	  System.out.println(mail.length);
+ 
+	  for(int i=0;i<mail.length;i++) {
+		  Mail n=new Mail();
+		  n= (Mail) mail[i];
+		  if(n!=null) 
+			  listView.getItems().addAll("Subject: "+n.basicInfo.subject );
+		  
+		  else
+			  break;
+	  } 
+	  
+	 /* String type=comboBoxSort.getValue();
+	  
+	MailBasicInfo[] array=new MailBasicInfo [10];
+	Index.IndexFilePath=myApp.currentUser.user.getUserPath()+File.separator+myApp.currentFolder.name+File.separator+"index.txt";
+	System.out.println(Index.IndexFilePath);
+ 
+	DoubleLinkedList list=new DoubleLinkedList();
+    list=Index.getListFromIndexFile();
+    System.out.println(list.size());
+ 
+	if(type=="Priority")
+		Sort.priority(list);
+	else
+		Sort.iterativeQuickSort(list, type.toLowerCase());
+ 
+	for(int i=0;i<list.size();i++) {
+		if(list.get(i)!=null)
+		array[i]=(MailBasicInfo) list.get(i);
+	}
+ 
+ 
+	  listView.getItems().clear();
+ 
+	  for(int i=0;i<array.length;i++) {
+		  MailBasicInfo n=new MailBasicInfo();
+		  n= (MailBasicInfo) array[i];
+		  if(n!=null) {
+		  listView.getItems().add("Subject: "+n.subject);
 		  }
+ 
+	  }*/
   }
 	
 

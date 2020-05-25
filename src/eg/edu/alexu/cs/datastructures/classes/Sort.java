@@ -14,7 +14,7 @@ public class Sort implements ISort {
 	 * @param mails
 	 */
 	public static void priority(DoubleLinkedList mails) {
-		System.out.println(mails.size());
+		//System.out.println("priorty:" + mails.size());
 		if (mails.head == null)
 			throw new RuntimeException();
 		PriorityQueue q = new PriorityQueue();
@@ -69,18 +69,18 @@ public class Sort implements ISort {
 		int low = start;
 		int high = end - 2;
 		Mail piv = (Mail) mails.get(position);
-		String pivot = piv.bodyText;
+		String pivot = piv.getBodyText();
 		swap(mails, position, end - 1);
 
 		while (low < high) {
-
+			
 			Mail l = (Mail) mails.get(low);
 			Mail h = (Mail) mails.get(high);
-
-			if ((l.bodyText).compareTo(pivot) < 0) {
+			
+			if ((l.getBodyText()).compareTo(pivot) < 0) {
 				low++;
 			} 
-			else if (!((h.bodyText).compareTo(pivot) < 0)) {
+			else if (!((h.getBodyText()).compareTo(pivot) < 0)) {
 				high--;
 			} 
 			else {
@@ -90,7 +90,7 @@ public class Sort implements ISort {
 
 		int index = high;
 		Mail h = (Mail) mails.get(high);
-		if ((h.bodyText).compareTo(pivot) < 0) {
+		if ((h.getBodyText()).compareTo(pivot) < 0) {
 			index++;
 		}
 		swap(mails, end - 1, index);

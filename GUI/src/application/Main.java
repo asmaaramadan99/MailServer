@@ -31,7 +31,7 @@ public class Main extends Application {
 		
 		/*SendEmailController k = loader.getController();
 		System.out.println(app); 
-		k.setApp(app);
+		k.setApp(app); 
 		*/
 		
 		Scene scene =new Scene(root,700,500);

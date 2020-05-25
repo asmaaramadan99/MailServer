@@ -118,6 +118,14 @@ public class App implements IApp, Serializable {
 	}
 
 	
+	DoubleLinkedList clearNullMails(DoubleLinkedList Mails) {
+		for(int i=0; i<Mails.size(); i++) {
+			if(Mails.get(i) == null)
+				Mails.remove(i);		
+		}
+		return Mails;
+	}
+	
 	void setDefaultViewOptions() {
 		currentFolder = new Folder("inbox");
 		currentFilter = null;
@@ -139,6 +147,7 @@ public class App implements IApp, Serializable {
 	} 
 	
 	void sortMails() {
+		allMails = clearNullMails(allMails);
 		if(currentSort == "priority")
 			Sort.priority(allMails);
 		
@@ -159,7 +168,7 @@ public class App implements IApp, Serializable {
 					this.allMails);
 		}
 		else 
-			currentFilter = null;
+			currentFilter = null; 
 		
 		setViewingOptions(currentFolder, currentFilter, null);
 	}

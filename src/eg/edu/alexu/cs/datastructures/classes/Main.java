@@ -81,20 +81,21 @@ public class Main {
 	
 	
 	static void getMails() {
-		/*App app = new App();
-		app.signin("mohamed@gmail.com","pass");
+		App app = new App();
+		app.signin("moaz@gmail.com","pass");
+		app.setVeiwOptions(null, "priority", null, null);
 		Mail[] mails = (Mail[])app.listEmails(1);
 		for(int i=0; i<mails.length; i++) {
 			if(mails[i] == null)
 				break;
 				
-			String text = (mails[i]).getBodyText();
+			int text = (mails[i]).getPriority();
 			System.out.println(text);
-		}*/
+		}
 		
-		App app = new App();
+	/*	App app = new App();
 		
-		app.signin("mohamed@gmail.com", "pass");
+		app.signin("moaz@gmail.com", "pass");
 		Mail m = (Mail)app.listEmails(1)[2];
 	 	
 		System.out.println(m.getBodyText());
@@ -109,7 +110,7 @@ public class Main {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-		  }
+		  }*/
 	}
 	
 	
@@ -202,9 +203,9 @@ public class Main {
 		
 		//generateUsers();
 		//newEmails();h
-		//getMails();
+		getMails();
 	//	PQandSort();
-		 testMoveAndRemove();
+	//	 testMoveAndRemove();
 		
 		//filterShit();
 		

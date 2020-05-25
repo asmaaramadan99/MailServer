@@ -9,7 +9,7 @@ public class SinglyLinkedList implements ILinkedList, Serializable{
 	
     public Node head;
     Integer size;
-    public final Node nullNode = new Node(null,null);
+    public final Node nullNode = new Node(null,null); 
 
     public class Node implements Serializable{
     	private static final long serialVersionUID = 1L;
