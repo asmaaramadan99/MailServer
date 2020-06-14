@@ -39,7 +39,6 @@ import javafx.stage.Stage;
  
 public class MainPageController{
  
- 
   App myApp=new App();
   IMail [] mail;
   public App getApp() {
@@ -86,7 +85,9 @@ public class MainPageController{
   private TextField folderToAddName;
   @FXML  
   private TextField folderToDelName;
- 
+  @FXML  
+  private TextField folderToMoveName;
+  
   ObservableList <String> filterList= FXCollections.observableArrayList("date","priority","sender");
   ObservableList <String> sortList= FXCollections.observableArrayList("Default","Priority","Sender","Subject","Body");
  
@@ -124,25 +125,25 @@ public class MainPageController{
   @FXML
   public void SignIn(ActionEvent event) throws Exception
   {   
-	  myApp.signin("ahmed@gmail.com", "pass");
+	  myApp.signin("moaz@gmail.com", "pass");
 	  
-	 /* if(myApp.signin(signInEmail.getText(),signInPass.getText()))
-	  {*/
+	  if(myApp.signin(signInEmail.getText(),signInPass.getText()))
+	  {
 		    Stage HomePageStage=new Stage();
 		    FXMLLoader loader = new FXMLLoader(getClass().getResource("MainPage.fxml"));
 			Parent root=loader.load();
 			MainPageController c=loader.getController();
 			c.setApp(myApp);
-			Scene scene =new Scene(root,1000,750);
+			Scene scene =new Scene(root,1070,650);
 			HomePageStage.setResizable(false);
 			HomePageStage.setTitle("Mail Server");
 			HomePageStage.setScene(scene); 
 			//HomePageStage.setMaximized(true);
 			HomePageStage.show(); 
-	  //} 
+	  } 
 	  
-	  //else 
-		//  signInStatus.setText("Incorrect email or password");
+	  else 
+		  signInStatus.setText("Incorrect email or password");
 	  	  
   }
  
@@ -204,6 +205,7 @@ public class MainPageController{
 		myApp.deleteFolder(folderToDelName.getText());
 	  	addFolderButtons();
 	  }
+	  
   } 
   
  
@@ -211,8 +213,45 @@ public class MainPageController{
 	  myApp.createFolder(folderToAddName.getText());
 	  addFolderButtons();
   }
- 
- 
+  
+  public void moveMails(ActionEvent event) throws IOException {
+	  ObservableList selectedIndices = listView.getSelectionModel().getSelectedIndices();
+	  SinglyLinkedList mails = new SinglyLinkedList();
+	  int i=0; 
+	  
+      for(Object o : selectedIndices){
+    	  int index = (int)(o.toString()).charAt(0);
+    	  index -= 48;
+          System.out.println(index);
+          System.out.println(index);
+          Mail m = (Mail)mail[index];
+          mails.add(m);
+      }
+      
+      myApp.moveEmails(mails, new Folder(folderToMoveName.getText()));
+      chooseFolder(myApp.currentFolder.name);
+  }
+  
+  public void deleteMails(ActionEvent event) throws IOException {
+	  ObservableList selectedIndices = listView.getSelectionModel().getSelectedIndices();
+	  SinglyLinkedList mails = new SinglyLinkedList();
+	  int i=0;
+	  
+      for(Object o : selectedIndices){
+    	  int index = (int)(o.toString()).charAt(0);
+    	  index -= 48;
+          System.out.println(index);
+          System.out.println(index);
+          Mail m = (Mail)mail[index];
+          mails.add(m);
+      }
+      
+      myApp.deleteEmails(mails);
+      chooseFolder(myApp.currentFolder.name);
+      
+  }
+  
+  
   @FXML
   public void comboFilter() {
 	  /*
@@ -256,7 +295,6 @@ public class MainPageController{
 	System.out.println(app);
 	k.setApp(app);
 	
-	
 	Scene scene =new Scene(root,700,500);
 	sendEmailPage.setTitle("Mail Server");
 	sendEmailPage.setResizable(false);
@@ -266,7 +304,28 @@ public class MainPageController{
   
 
 	public void viewMailPage(App app,Mail mail) throws IOException {
-		Stage sendEmailPage = new Stage();
+		
+		if(myApp.currentFolder.name.equals("Drafts")== true) {
+			Stage sendEmailPage = new Stage();
+			FXMLLoader loader= new FXMLLoader(getClass().getResource("SendEmail.fxml"));
+			Parent root = loader.load();
+			
+			SendEmailController k = loader.getController();
+			System.out.println(app);
+			k.setApp(app);
+			k.setInfo(mail);
+			
+			Scene scene =new Scene(root,700,500);
+			sendEmailPage.setTitle("Mail Server");
+			sendEmailPage.setResizable(false);
+			sendEmailPage.setScene(scene);
+			sendEmailPage.show();
+			
+			return;
+		}
+		
+		
+		Stage viewEmailPage = new Stage();
 		FXMLLoader loader= new FXMLLoader(getClass().getResource("viewEmail.fxml"));
 		Parent root = loader.load();
 
@@ -275,10 +334,10 @@ public class MainPageController{
 		c.setMail( mail );
 		
 		Scene scene =new Scene(root,600,500);
-		sendEmailPage.setTitle("Mail Server");
-		sendEmailPage.setResizable(false);
-		sendEmailPage.setScene(scene);
-		sendEmailPage.show();
+		viewEmailPage.setTitle("Mail Server");
+		viewEmailPage.setResizable(false);
+		viewEmailPage.setScene(scene);
+		viewEmailPage.show();
 	}
   
   public void sort(ActionEvent event) {

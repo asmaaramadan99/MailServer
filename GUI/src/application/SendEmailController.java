@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -23,6 +24,8 @@ public class SendEmailController {
 	
   App app;
   SinglyLinkedList attachments = new SinglyLinkedList();
+  String Date = null;
+  int initialPriority = 1;
   
   ObservableList<String> options = 
 		    FXCollections.observableArrayList(
@@ -32,7 +35,7 @@ public class SendEmailController {
 		        "4",
 		        "5"
 		    ); 
-  @FXML
+  @FXML 
   private TextField recievers;
   @FXML
   private TextField subject;
@@ -46,10 +49,19 @@ public class SendEmailController {
   private Label warning;
   @FXML
   private ComboBox priorityBox;
+  @FXML
+  private Button sendEmail;
+  
+  public void setInfo(Mail mail) {
+	  subject.setText(mail.getSubject());
+	  messageBody.setText(mail.getBodyText());
+	  priorityBox.setValue(mail.getPriority());
+	  attachments = mail.getattachments();
+  }
+  
   
   @FXML
   private void initialize() {
-	  System.out.println("started");
 	  priorityBox.setItems(options);
 	  priorityBox.setValue("1");
   }
@@ -60,6 +72,24 @@ public class SendEmailController {
 	  File selectedFile = fileChooser.showOpenDialog(new Stage());
 	  attachments.add(selectedFile.getAbsoluteFile().toString());
   }
+  
+  public void saveAsDraft(ActionEvent event) throws Exception
+  {   
+	  String msgBody = messageBody.getText();
+	  String msgSubject =  subject.getText();
+	  String msgRecievers = recievers.getText();
+	  String date = (new Date()).toString();
+	  int priority = (int)((priorityBox.getValue().toString()).charAt(0)) - 48;  
+	  
+	  Mail mail = new Mail( app.currentUser.user.getEmail()
+			  , msgSubject, msgBody,
+		date, priority, attachments );  
+	  mail.receivers = emailsSeparator(msgRecievers); 
+	  app.setAsDraft(mail);
+	  warning.setText("Saved as a draft");
+  }
+   
+  
   
   public void Send(ActionEvent event)
   { 
@@ -76,7 +106,9 @@ public class SendEmailController {
 	  mail.receivers = emailsSeparator(msgRecievers);
 	  
 	  if(app.compose(mail)) {
-		  warning.setText("Email Sent");
+		  Stage currentStage = (Stage) sendEmail.getScene().getWindow();
+		  
+		  currentStage.close();
 	  }
 	  
 	  else

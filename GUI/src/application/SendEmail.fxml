@@ -8,16 +8,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity"
- maxWidth="-Infinity" prefHeight="498.0" 
- prefWidth="706.0" 
- style="-fx-background-color: 255, 255, 255;"
-  xmlns="http://javafx.com/javafx/11.0.1" 
-  xmlns:fx="http://javafx.com/fxml/1" 
-  fx:controller="application.SendEmailController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="498.0" prefWidth="706.0" style="-fx-background-color: 255, 255, 255;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SendEmailController">
    <children>
       <TextField id="recievers" fx:id="recievers" layoutX="119.0" layoutY="19.0" prefHeight="31.0" prefWidth="562.0" text=" Enter the recievers emails separated by a space" />
-      <Button id="SendBtn" fx:id="signUpBt" graphicTextGap="10.0" layoutX="457.0" layoutY="337.0" mnemonicParsing="false" onAction="#Send" prefHeight="42.0" prefWidth="211.0" style="-fx-background-color: #bef992;" text="Send" textFill="WHITE">
+      <Button id="SendBtn" fx:id="sendEmail" graphicTextGap="10.0" layoutX="457.0" layoutY="337.0" mnemonicParsing="false" onAction="#Send" prefHeight="42.0" prefWidth="211.0" style="-fx-background-color: #bef992;" text="Send" textFill="WHITE">
          <font>
             <Font size="19.0" />
          </font></Button>
@@ -49,5 +43,10 @@
       </Label>
       <ComboBox id="priorityBox" fx:id="priorityBox" layoutX="289.0" layoutY="366.0" prefWidth="150.0" />
       <Label layoutX="297.0" layoutY="339.0" text="Priority:" />
+      <Button id="AttachmentBtn" graphicTextGap="10.0" layoutX="252.0" layoutY="413.0" mnemonicParsing="false" onAction="#saveAsDraft" prefHeight="42.0" prefWidth="224.0" style="-fx-background-color: grey;" text="Save as a Draft" textFill="WHITE">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

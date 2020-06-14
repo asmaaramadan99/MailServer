@@ -160,7 +160,8 @@ public class App implements IApp, Serializable {
 		if(folderName != null) 
 			currentFolder = new Folder(folderName);
 		
-		currentSort = sortType;
+		if(sortType != null)
+			currentSort = sortType;
 		
 		if(filterType != null && filterTarget != null) {
 			getAllMails();
@@ -257,7 +258,7 @@ public class App implements IApp, Serializable {
 		if(!validateRecievers(recievers))
 			return false;
 		
-		mail.store(userPath, "sent");
+		mail.store(userPath, "Sent");
 		
 		/// put emails in recievers' files and add them to index Files
 		while(recievers.isEmpty() == false) {
@@ -271,7 +272,7 @@ public class App implements IApp, Serializable {
 					+  "index.txt";
 
 			Index.IndexFilePath = indexFilePath;
-			mail.store(receiverPath, "inbox");
+			mail.store(receiverPath, "Inbox");
 		}
 		DoubleLinkedList basicInfoMails =  Index.getListFromIndexFile();
 		Index.IndexFilePath = currentUser.user.getUserPath();
@@ -279,6 +280,12 @@ public class App implements IApp, Serializable {
 		return true;
 		
 	}
+	
+	public void setAsDraft(Mail email) {
+		String userPath = this.currentUser.user.getUserPath();
+		email.store(userPath, "Drafts");
+	}
+	
 
 	public String[] getUserFolderNames() {
 		File userFolder = new File(currentUser.user.getUserPath());

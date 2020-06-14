@@ -39,7 +39,7 @@ public class Mail  implements  IMail, Serializable {
     	setMailFolderPath(userPath, folder);
     	addToIndexFile();
     	try{
-    		createMailFolder();
+    		createMailFolder(); 
     	} catch(Exception e) {
     		e.printStackTrace();
     	}
