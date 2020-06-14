@@ -1,5 +1,6 @@
 package application; 
-import java.awt.Button;
+import javafx.scene.control.Button;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -20,9 +21,12 @@ import eg.edu.alexu.csd.datastructure.SinglyLinkedList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -30,6 +34,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
  
 public class MainPageController{
@@ -63,7 +68,7 @@ public class MainPageController{
   private Label signUpStatus;
   @FXML
   private Label signInStatus;
-  @FXML
+  @FXML 
   private TextField signUpName;
   @FXML
   private TextField signUpBirthday;
@@ -75,6 +80,12 @@ public class MainPageController{
   private ComboBox<String> comboBoxSort;
   @FXML  
   private TextField searchFor;
+  @FXML
+  private VBox buttonsWrapper;	
+  @FXML  
+  private TextField folderToAddName;
+  @FXML  
+  private TextField folderToDelName;
  
   ObservableList <String> filterList= FXCollections.observableArrayList("date","priority","sender");
   ObservableList <String> sortList= FXCollections.observableArrayList("Default","Priority","Sender","Subject","Body");
@@ -84,26 +95,54 @@ public class MainPageController{
 	  listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	  comboBoxFilter.setItems(filterList);
 	  comboBoxSort.setItems(sortList);  
+	  addFolderButtons();
   }
+  
+  void addFolderButtons() {
+	  buttonsWrapper.getChildren().removeAll(buttonsWrapper.getChildren());
+	  buttonsWrapper.setAlignment(Pos.CENTER);
+	  String folders[] = myApp.getUserFolderNames();
+	  for(int i=0; i<folders.length; i++) {
+		  Button button = new Button(folders[i]);
+		  buttonsWrapper.getChildren().add(button);
+		  button.setMaxWidth(Double.MAX_VALUE);
+		  button.setOnAction(new EventHandler<ActionEvent>() {
+			    @Override public void handle(ActionEvent e)  {
+			    	try {
+						chooseFolder(button.getText());
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			    }
+			});
+		  buttonsWrapper.setMargin(button,new Insets(5,5,5,0));
+		  
+	  }
+  }
+  
   @FXML
   public void SignIn(ActionEvent event) throws Exception
   {   
-	  if(myApp.signin(signInEmail.getText(),signInPass.getText()))
-	  {
+	  myApp.signin("ahmed@gmail.com", "pass");
+	  
+	 /* if(myApp.signin(signInEmail.getText(),signInPass.getText()))
+	  {*/
 		    Stage HomePageStage=new Stage();
 		    FXMLLoader loader = new FXMLLoader(getClass().getResource("MainPage.fxml"));
 			Parent root=loader.load();
 			MainPageController c=loader.getController();
 			c.setApp(myApp);
-			Scene scene =new Scene(root,800,600);
+			Scene scene =new Scene(root,1000,750);
 			HomePageStage.setResizable(false);
 			HomePageStage.setTitle("Mail Server");
-			HomePageStage.setScene(scene);
+			HomePageStage.setScene(scene); 
+			//HomePageStage.setMaximized(true);
 			HomePageStage.show(); 
-	  }
+	  //} 
 	  
-	  else 
-		  signInStatus.setText("Incorrect email or password");
+	  //else 
+		//  signInStatus.setText("Incorrect email or password");
 	  	  
   }
  
@@ -156,18 +195,22 @@ public class MainPageController{
  
  
  
-  public void openInbox(ActionEvent event) throws IOException {
-	  chooseFolder("Inbox");
-  }
-  public void openTrash(ActionEvent event) throws IOException {
-	  chooseFolder("Trash");
-  }
-  public void openDrafts(ActionEvent event) throws IOException {
-	  chooseFolder("Drafts");
-  }
-  public void openSent(ActionEvent event) throws IOException {
-	  chooseFolder("Sent"); 
+  
+  public void deleteFolder(ActionEvent event) throws IOException {
+	  System.out.println("deleting a folder");
+	  String folderName=folderToDelName.getText();
+	  if(folderName != "Inbox" && folderName != "Drafts" &&
+			  folderName != "Trash" && folderName != "Sent") {
+		myApp.deleteFolder(folderToDelName.getText());
+	  	addFolderButtons();
+	  }
   } 
+  
+ 
+  public void makeNewFolder(ActionEvent event) throws IOException {
+	  myApp.createFolder(folderToAddName.getText());
+	  addFolderButtons();
+  }
  
  
   @FXML
@@ -242,14 +285,15 @@ public class MainPageController{
 	  
 	  String type=comboBoxSort.getValue().toLowerCase();
 	  
-	  if(type.equals("default"))
-		  type = null;
 	  
 	  listView.getItems().clear();
 	  
-	  if(type.equals("priority"))
-		  myApp.setVeiwOptions(null, "priority", null, null);
+	  if(type.equals("default"))
+		  type = null;
 	  
+	  else if(type.equals("priority"))
+		  myApp.setVeiwOptions(null, "priority", null, null);
+	  	
 	  else
 		  myApp.setVeiwOptions(null, type, null, null);
 		

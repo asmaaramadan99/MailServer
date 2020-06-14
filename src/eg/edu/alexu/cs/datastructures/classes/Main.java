@@ -32,7 +32,7 @@ public class Main {
 		} catch(Exception e) {
 			
 		}
-		
+		 
 	}
 	
 	static void generateUsers() {
@@ -203,7 +203,7 @@ public class Main {
 		
 		//generateUsers();
 		//newEmails();h
-		getMails();
+	//	getMails();
 	//	PQandSort();
 	//	 testMoveAndRemove();
 		

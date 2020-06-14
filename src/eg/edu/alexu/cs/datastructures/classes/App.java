@@ -248,7 +248,7 @@ public class App implements IApp, Serializable {
 	}
 
 	@Override
-	public boolean compose(IMail email) {
+	public boolean compose(IMail email) { 
 		 
 		Mail mail = (Mail) email;
 		Queue recievers = mail.receivers;
@@ -278,6 +278,43 @@ public class App implements IApp, Serializable {
 		
 		return true;
 		
+	}
+
+	public String[] getUserFolderNames() {
+		File userFolder = new File(currentUser.user.getUserPath());
+		String[] children = userFolder.list();
+		String[] folder = new String[children.length-1];
+		int minus = 0;
+		for(int i=0; i<children.length; i++) {
+			if(children[i].equals("userInfo.bin") == true)
+			{ minus = 1; continue;}
+			folder[i - minus] = children[i];
+		//	System.out.println(folder[i]);
+		}
+		return folder;
+	}
+	
+	public void createFolder(String folderName) {
+		try {
+			currentUser.createFolder(folderName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean deleteFolder(String folderName) {
+		String path = currentUser.user.getUserPath() + 
+				File.separator + folderName;
+		
+		File folder = new File(path);
+		if(folder.exists()) {
+			FileManager.deleteDir(folder);
+			return true;
+		}
+		
+		else
+			return false;
 	}
 	
 	boolean validateRecievers(Queue receivers) {

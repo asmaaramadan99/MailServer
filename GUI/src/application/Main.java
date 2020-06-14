@@ -2,6 +2,7 @@ package application;
 	
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,11 +34,11 @@ public class Main extends Application {
 		System.out.println(app); 
 		k.setApp(app); 
 		*/
-		
 		Scene scene =new Scene(root,700,500);
 		MainPage.setTitle("Mail Server");
 		MainPage.setResizable(false);
 		MainPage.setScene(scene);
+		//MainPage.setMaximized(true);
 		MainPage.show();
 		//sendEmailPage(app);
         //viewMailPage(app, a);

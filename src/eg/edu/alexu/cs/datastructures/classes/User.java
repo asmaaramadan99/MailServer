@@ -18,7 +18,7 @@ public class User implements IUser, Serializable {
 
 	// TODO: encrypt stored passwords
 	public User(Contact user) {
-		this.user = user;
+		this.user = user; 
 		this.emails.add(user.getEmail());
 		try {
 			this.createFolder();
@@ -35,13 +35,16 @@ public class User implements IUser, Serializable {
 		File userInfo = new File(this.user.getUserPath() + File.separator + "userInfo.bin");
 		userInfo.createNewFile();
 		for (Folders f : Folders.values()) {
-			File file = new File(this.user.getUserPath() + File.separator + f.toString());
-			file.mkdir();
-			File index = new File(file.getAbsoluteFile() + File.separator + "index.txt");
-			index.createNewFile();
-
+			createFolder(f.toString());
 		}
 	}
+	
+	public void createFolder(String f) throws IOException {
+		File file = new File(this.user.getUserPath() + File.separator + f.toString());
+		file.mkdir();
+		File index = new File(file.getAbsoluteFile() + File.separator + "index.txt");
+		index.createNewFile();
+	} 
 
 
 	void writeUserToFile() {
