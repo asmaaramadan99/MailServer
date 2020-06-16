@@ -2,9 +2,8 @@ package eg.edu.alexu.cs.datastructures.classes;
  
  
 import java.io.File;
- 
- 
- 
+import java.util.Date;
+
 import eg.edu.alexu.csd.datastructure.DoubleLinkedList;
  
 public class IndexTest {
@@ -41,11 +40,11 @@ public class IndexTest {
         l=Index.getListFromIndexFile();
         //became zero
         System.out.println(l.size());
-    }
+    } 
    
     public static String getId(String path)
     {
-        Mail t=new Mail("a@gmail.com","s","sd","aa",1,null);
+        Mail t=new Mail("a@gmail.com","s","sd",new Date(),1,null);
         t.store(path,"Inbox"); 
         return t.getBasicInfo().ID;
     }

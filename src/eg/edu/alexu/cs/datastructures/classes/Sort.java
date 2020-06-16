@@ -1,17 +1,17 @@
 package eg.edu.alexu.cs.datastructures.classes;
 
-import MyDataStructures.*;
+import MyDataStructures.*; 
 import eg.edu.alexu.csd.datastructure.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.SinglyLinkedList;
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
-import java.sql.Date;
+import java.util.Date;
 
 public class Sort implements ISort {
 
 	/**
 	 * sorting according to priority
 	 * 
-	 * @param mails
+	 * @param mails 
 	 */
 	public static void priority(DoubleLinkedList mails) {
 		//System.out.println("priorty:" + mails.size());
@@ -178,27 +178,30 @@ public class Sort implements ISort {
 		int low = start;
 		int high = end - 2;
 		Mail piv = (Mail) mails.get(position);
-		Date pivot = Date.valueOf(piv.getDateString());
+		Date pivot = piv.getDate();
 		swap(mails, position, end - 1);
+		
 		while (low < high) {
 			Mail l = (Mail) mails.get(low);
 			Mail h = (Mail) mails.get(high);
-			if (Date.valueOf(l.getDateString()).compareTo(pivot) >= 0) {
-				low++;
+			if (l.getDate().compareTo(pivot) >= 0) {
+				low++; 
 			} 
-			else if (!((Date.valueOf(h.getDateString()).compareTo(pivot) >= 0))) {
+			else if (!(h.getDate().compareTo(pivot) >= 0)) {
 				high--;
 			} 
 			else {
 				swap(mails, low, high);
 			}
 		}
+		
 		int index = high;
 		Mail h = (Mail) mails.get(high);
 
-		if (Date.valueOf(h.getDateString()).compareTo(pivot) >= 0) {
+		if (h.getDate().compareTo(pivot) >= 0) {
 			index++;
 		}
+		
 		swap(mails, end - 1, index);
 		return index;
 	}

@@ -116,7 +116,7 @@ public class App implements IApp, Serializable {
 		return exist?false:true;
 
 	}
-
+ 
 	
 	DoubleLinkedList clearNullMails(DoubleLinkedList Mails) {
 		for(int i=0; i<Mails.size(); i++) {
@@ -140,12 +140,14 @@ public class App implements IApp, Serializable {
 		
 		sortMails();
 		
-		if(currentFilter != null)
+		if(currentFilter != null) {
+			currentFilter.emails = allMails;
 			allMails = currentFilter.getFiltered();
+		}		
 		
 		sortMails();
 	} 
-	
+	 
 	void sortMails() {
 		allMails = clearNullMails(allMails);
 		if(currentSort == "priority")
@@ -156,7 +158,7 @@ public class App implements IApp, Serializable {
 	}
 	 
 	public void setVeiwOptions(String folderName, String sortType, String 
-			filterType, String filterTarget) {
+			filterType, Object filterTarget) {
 		if(folderName != null) 
 			currentFolder = new Folder(folderName);
 		
@@ -165,8 +167,18 @@ public class App implements IApp, Serializable {
 		
 		if(filterType != null && filterTarget != null) {
 			getAllMails();
-			currentFilter = new Filter(filterType, filterTarget,
+			if(filterType.equals("priority")) {
+				currentFilter = new Filter(filterType, 
+						Integer.parseInt((String) filterTarget),
+						this.allMails);
+				
+			}
+			
+			
+			else {
+				currentFilter = new Filter(filterType, filterTarget,
 					this.allMails);
+			}
 		}
 		else 
 			currentFilter = null; 
@@ -187,7 +199,7 @@ public class App implements IApp, Serializable {
 		
 		/// convert basicInfoMails to MailsArray (allMails)
 		
-		for(int i=0; i<basicInfoMails.size(); i++) {
+		for(int i=basicInfoMails.size()-1; i>=0; i--) {
 			MailBasicInfo mba = (MailBasicInfo)basicInfoMails.get(i);
 			Mail mail = constructMail(mba);
 			allMails.add(mail);
@@ -197,8 +209,9 @@ public class App implements IApp, Serializable {
 	@Override
 	public IMail[] listEmails(int page) {
 		
-		if(allMails == null || allMails.size() == 0)
+		if(allMails == null)
 			getAllMails(); 
+			
 		
 		// pages Are 1,2,3,4
 		final Integer numOfEmailsPerPage = 10;
@@ -322,6 +335,23 @@ public class App implements IApp, Serializable {
 		
 		else
 			return false;
+	}
+	
+	public boolean renameFolder(String oldName, String newName) {
+		String oldPath = currentUser.user.getUserPath() + 
+				File.separator + oldName;
+		String newPath = currentUser.user.getUserPath() + 
+				File.separator + newName;
+		
+		File oldFolder = new File(oldPath);
+		File newFolder = new File(newPath);
+		if(oldFolder.exists() == false || newFolder.exists() == true ||
+				oldName.toLowerCase().equals("trash") ||
+				oldName.toLowerCase().equals("inbox") ||
+				oldName.toLowerCase().equals("sent") ||
+				oldName.toLowerCase().equals("drafts"))
+			return false;
+		return oldFolder.renameTo(newFolder);
 	}
 	
 	boolean validateRecievers(Queue receivers) {

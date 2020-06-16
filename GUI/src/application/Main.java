@@ -34,7 +34,7 @@ public class Main extends Application {
 		System.out.println(app); 
 		k.setApp(app); 
 		*/
-		Scene scene =new Scene(root,700,500);
+		Scene scene =new Scene(root,700,420);
 		MainPage.setTitle("Mail Server");
 		MainPage.setResizable(false);
 		MainPage.setScene(scene);

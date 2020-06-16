@@ -35,6 +35,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
  
 public class MainPageController{
@@ -50,7 +51,6 @@ public class MainPageController{
 		
 		initMainPageStuff();
 	}
- 
  
  
   @FXML  
@@ -87,8 +87,14 @@ public class MainPageController{
   private TextField folderToDelName;
   @FXML  
   private TextField folderToMoveName;
+  @FXML  
+  private TextField oldName;
+  @FXML  
+  private TextField newName;
+  @FXML
+  private Label name;
   
-  ObservableList <String> filterList= FXCollections.observableArrayList("date","priority","sender");
+  ObservableList <String> filterList= FXCollections.observableArrayList("subject","date","priority","sender");
   ObservableList <String> sortList= FXCollections.observableArrayList("Default","Priority","Sender","Subject","Body");
  
   
@@ -97,6 +103,22 @@ public class MainPageController{
 	  comboBoxFilter.setItems(filterList);
 	  comboBoxSort.setItems(sortList);  
 	  addFolderButtons();
+	  
+	  searchFor.setOnAction(new EventHandler<ActionEvent>() {
+		  public void handle(ActionEvent event) {
+			  filter(null);
+		  }
+	   });
+	  
+	  name.setText(myApp.currentUser.user.getName()  + " - "
+			  + myApp.currentUser.user.getEmail()  );
+	  
+	  try {
+		chooseFolder("Inbox");
+	  } catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	  }
   }
   
   void addFolderButtons() {
@@ -121,6 +143,12 @@ public class MainPageController{
 		  
 	  }
   }
+
+  public void reload(ActionEvent event) throws Exception
+  {   
+	  System.out.println("reloading");
+	  chooseFolder(myApp.currentFolder.name);
+  }
   
   @FXML
   public void SignIn(ActionEvent event) throws Exception
@@ -140,6 +168,8 @@ public class MainPageController{
 			HomePageStage.setScene(scene); 
 			//HomePageStage.setMaximized(true);
 			HomePageStage.show(); 
+			//chooseFolder("inbox");
+			
 	  } 
 	  
 	  else 
@@ -159,8 +189,6 @@ public class MainPageController{
 	  contact.setBirthday(signUpBirthday.getText());
 	  contact.setUserPath();
  
- 
- 
 	  if(myApp.signup(contact))
 		  signUpStatus.setText("You signed up successfully");
 	  
@@ -168,8 +196,6 @@ public class MainPageController{
 		  signUpStatus.setText("Sign up failed");  
 	  
   }
- 
- 
  
  
   public void chooseFolder(String folder) throws IOException {
@@ -180,7 +206,7 @@ public class MainPageController{
 	  
 	  mail=myApp.listEmails(p);
 	  System.out.println(mail.length);
- 
+  
 	  for(int i=0;i<mail.length;i++) {
 		  Mail n=new Mail();
 		  n= (Mail) mail[i];
@@ -193,9 +219,6 @@ public class MainPageController{
 		  
  
   }
- 
- 
- 
   
   public void deleteFolder(ActionEvent event) throws IOException {
 	  System.out.println("deleting a folder");
@@ -251,12 +274,18 @@ public class MainPageController{
       
   }
   
+  public void renameFolder(ActionEvent event) {
+	  String old = oldName.getText();
+	  String ne = newName.getText();
+	  myApp.renameFolder(old, ne);
+	  addFolderButtons();
+  }
+  
   
   @FXML
   public void comboFilter() {
-	  /*
-	  comboBoxFilter.setItems(filterList);
-	  comboBoxSort.setItems(sortList);*/
+	  
+	  
   }
   
   
@@ -286,7 +315,7 @@ public class MainPageController{
   }
   
   public void sendEmailPage(App app) throws Exception {
-		
+		 
 	Stage sendEmailPage = new Stage();
 	FXMLLoader loader= new FXMLLoader(getClass().getResource("SendEmail.fxml"));
 	Parent root = loader.load();
@@ -295,7 +324,7 @@ public class MainPageController{
 	System.out.println(app);
 	k.setApp(app);
 	
-	Scene scene =new Scene(root,700,500);
+	Scene scene =new Scene(root,750,550);
 	sendEmailPage.setTitle("Mail Server");
 	sendEmailPage.setResizable(false);
 	sendEmailPage.setScene(scene);
@@ -309,7 +338,7 @@ public class MainPageController{
 			Stage sendEmailPage = new Stage();
 			FXMLLoader loader= new FXMLLoader(getClass().getResource("SendEmail.fxml"));
 			Parent root = loader.load();
-			
+			 
 			SendEmailController k = loader.getController();
 			System.out.println(app);
 			k.setApp(app);
@@ -340,27 +369,34 @@ public class MainPageController{
 		viewEmailPage.show();
 	}
   
-  public void sort(ActionEvent event) {
+  public void sort(ActionEvent event) throws IOException {
 	  
 	  String type=comboBoxSort.getValue().toLowerCase();
-	  
-	  
 	  listView.getItems().clear();
-	  
-	  if(type.equals("default"))
-		  type = null;
-	  
-	  else if(type.equals("priority"))
+	  if(type.equals("priority"))
 		  myApp.setVeiwOptions(null, "priority", null, null);
 	  	
 	  else
 		  myApp.setVeiwOptions(null, type, null, null);
 		
-	  int p= Integer.parseInt(page.getText());
+	  chooseFolder(myApp.currentFolder.name);
+  }
+	
+
+  
+  public void filter(ActionEvent event) {
+	  if(comboBoxFilter.getValue() == null)
+		  return;
 	  
-	  mail=myApp.listEmails(p);
-	  System.out.println(mail.length);
- 
+	  listView.getItems().clear();
+	  
+	  String type=comboBoxFilter.getValue().toLowerCase();
+	  int p= Integer.parseInt(page.getText());
+	  myApp.setVeiwOptions(myApp.currentFolder.name, 
+			  null, type,
+			  searchFor.getText() );
+	  mail=myApp.listEmails(p);	
+	  
 	  for(int i=0;i<mail.length;i++) {
 		  Mail n=new Mail();
 		  n= (Mail) mail[i];
@@ -370,44 +406,9 @@ public class MainPageController{
 		  else
 			  break;
 	  } 
-	  
-	 /* String type=comboBoxSort.getValue();
-	  
-	MailBasicInfo[] array=new MailBasicInfo [10];
-	Index.IndexFilePath=myApp.currentUser.user.getUserPath()+File.separator+myApp.currentFolder.name+File.separator+"index.txt";
-	System.out.println(Index.IndexFilePath);
- 
-	DoubleLinkedList list=new DoubleLinkedList();
-    list=Index.getListFromIndexFile();
-    System.out.println(list.size());
- 
-	if(type=="Priority")
-		Sort.priority(list);
-	else
-		Sort.iterativeQuickSort(list, type.toLowerCase());
- 
-	for(int i=0;i<list.size();i++) {
-		if(list.get(i)!=null)
-		array[i]=(MailBasicInfo) list.get(i);
-	}
- 
- 
-	  listView.getItems().clear();
- 
-	  for(int i=0;i<array.length;i++) {
-		  MailBasicInfo n=new MailBasicInfo();
-		  n= (MailBasicInfo) array[i];
-		  if(n!=null) {
-		  listView.getItems().add("Subject: "+n.subject);
-		  }
- 
-	  }*/
   }
-	
-
   
-  public void filter(ActionEvent event) {
-  }
+  
 
  
 }

@@ -7,11 +7,11 @@ import eg.edu.alexu.csd.datastructure.Stack;
 
 public class Filter implements IFilter {
 
-	private String filter; // subject priority sender
-	private Object target; // value
-	private DoubleLinkedList emails;
+	public String filter; // subject priority sender
+	public Object target; // value
+	public DoubleLinkedList emails;
 	private DoubleLinkedList filtered;
-
+ 
 	Filter(String filter, Object target, DoubleLinkedList emails) {
 		this.filter = filter;
 		this.target = target; 
@@ -26,8 +26,6 @@ public class Filter implements IFilter {
 
 	public DoubleLinkedList binarySearch() {
 
-		Sort sort = new Sort();
-		Sort.iterativeQuickSort(emails, target.toString());
 		Stack upper = new Stack();
 		Stack lower = new Stack();
 		int position = 0;
@@ -40,14 +38,20 @@ public class Filter implements IFilter {
 		upper.push(high);
 		upper.push(mid + 1);
 	
-		while (!found) {
-			Mail current = (Mail) emails.get((int) lower.peek());
+		/*while (!found) {
+			Mail current;
+			if(!lower.isEmpty())
+				 current = (Mail) emails.get((int) lower.peek());
+			
+			else
+				break;
+			
 			if (compare(current) > 0) {
 				upper.clear();
 				high = (int) lower.pop();
 				upper.push(high);
 				mid = low + (high - low) / 2;
-				if ((int) lower.peek() != mid) {
+				if (!lower.isEmpty() && (int) lower.peek() != mid) {
 					lower.push(mid);
 				}
 				if ((int) upper.peek() != mid + 1) {
@@ -75,6 +79,12 @@ public class Filter implements IFilter {
 		}
 		if (found) {
 			addDuplicates(position, target);
+		}*/
+		for(int i=0; i<emails.size(); i++) {
+			Mail current = (Mail) emails.get(i);
+			if(compare(current) == 0) {	
+				filtered.add(current);
+			}
 		}
 
 		return filtered;

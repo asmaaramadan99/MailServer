@@ -1,14 +1,15 @@
 package eg.edu.alexu.cs.datastructures.classes;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.*; 
 
 import java.io.File;
+import java.util.Date;
 
 import org.junit.Test;
 
 import eg.edu.alexu.csd.datastructure.Queue;
 import eg.edu.alexu.csd.datastructure.SinglyLinkedList;
-
+ 
 public class AppTest {
 	App app;
 	SinglyLinkedList bodyText = new SinglyLinkedList();
@@ -19,7 +20,7 @@ public class AppTest {
 		Contact user = new Contact("Mohamed@gmail.com", "pass");
 		user.setName("mohamed"); 
 		user.setUserPath();
-		app.signup(user);
+		app.signup(user); 
 		
 		user = new Contact("ahmed@gmail.com", "pass");
 		user.setName("ahmed"); 
@@ -51,7 +52,7 @@ public class AppTest {
 		 assertEquals(app.signin("moaz@gmail.com", "pass"),true);
 			
 		  Mail m=new Mail(Sender+"@gmail.com", subject , bodyText,
-				  null, priority, a );
+				  new Date(), priority, a );
 		  
 		  Queue z = new Queue();
 		  z.enqueue("mohamed@gmail.com");
@@ -61,7 +62,7 @@ public class AppTest {
 		  
 		  z.enqueue("k@gmailt.com");
 		  assertEquals(app.compose(m),false);
-		  
+		   
 	}
 	
 	
@@ -76,7 +77,8 @@ public class AppTest {
 		generateNewContacts(); 
 		
 		for(Integer i=0; i<13; i++) {
-			bodyText.add("subject" + i.toString());
+			Integer r = 12-i;
+			bodyText.add("subject" + r.toString());
 			generateEmails("Sender" +((Integer)(i%5)).toString() ,
 					"subject" + i.toString(), i%5, "subject" + ((Integer)(i%5)).toString());
 		}
@@ -86,7 +88,7 @@ public class AppTest {
 		test3();
 	}
 	
-	
+	 
 	// check if receiver got emails
 	void test1() {
 		app = new App();

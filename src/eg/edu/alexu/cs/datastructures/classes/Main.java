@@ -19,7 +19,7 @@ public class Main {
 
 	
 	static void moazTest() {
-		
+		 
 		App app = new App();
 		Contact moaz = new Contact("Mohamed@gmail.com", "pass");
 		moaz.setName("ahmed"); 
@@ -209,6 +209,31 @@ public class Main {
 		
 		//filterShit();
 		
+		Stack fuck = new Stack();
+		fuck.push(1);
+		fuck.push(2);
+		System.out.println(fuck.peek());
+		App app = new App();
+		
+		app.signin("ahmed@gmail.com", "pass");
+		Mail[] mails = (Mail[])app.listEmails(1);
+		for(int i=0; i<mails.length; i++) {
+			if(mails[i] == null)
+				break;
+			
+			String text = (mails[i]).getBodyText();
+			System.out.println(text);
+		} 
+		System.out.println("----------");
+		app.setVeiwOptions("Inbox", null,"priority",2);
+		mails = (Mail[])app.listEmails(1);
+		for(int i=0; i<mails.length; i++) {
+			if(mails[i] == null)
+				break;
+			
+			int text = (mails[i]).getPriority();
+			System.out.println(text);
+		} 
 		
     //    User asmaa=new User("asmaa","asmaa99@yahoo.com","asmaa");
         

@@ -1,7 +1,7 @@
 package eg.edu.alexu.cs.datastructures.classes;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -11,7 +11,7 @@ public class MailBasicInfo implements Serializable{
 	public static final long serialVersionUID = 3347324734166375499L;
 	public String sender;
 	public String subject;
-	public String date;
+	public Date date;
 	public Integer priority;
 	public SinglyLinkedList attachements=new SinglyLinkedList();
 	public String mailFolderPath;
@@ -20,7 +20,7 @@ public class MailBasicInfo implements Serializable{
 	public String ID;
 	
     MailBasicInfo(String sender, 
-    		String subject, String date, Integer priority,
+    		String subject, Date date, Integer priority,
     		SinglyLinkedList attachments) {
 		this.sender=sender;
 		this.subject=subject;

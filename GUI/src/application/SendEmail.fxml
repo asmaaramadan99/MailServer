@@ -6,12 +6,13 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="498.0" prefWidth="706.0" style="-fx-background-color: 255, 255, 255;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SendEmailController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="575.0" prefWidth="742.0" style="-fx-background-color: 255, 255, 255;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SendEmailController">
    <children>
-      <TextField id="recievers" fx:id="recievers" layoutX="119.0" layoutY="19.0" prefHeight="31.0" prefWidth="562.0" text=" Enter the recievers emails separated by a space" />
-      <Button id="SendBtn" fx:id="sendEmail" graphicTextGap="10.0" layoutX="457.0" layoutY="337.0" mnemonicParsing="false" onAction="#Send" prefHeight="42.0" prefWidth="211.0" style="-fx-background-color: #bef992;" text="Send" textFill="WHITE">
+      <TextField id="recievers" fx:id="recievers" layoutX="119.0" layoutY="19.0" prefHeight="31.0" prefWidth="604.0" text=" Enter the recievers emails separated by a space" />
+      <Button id="SendBtn" fx:id="sendEmail" graphicTextGap="10.0" layoutX="607.0" layoutY="337.0" mnemonicParsing="false" onAction="#Send" prefHeight="42.0" prefWidth="116.0" style="-fx-background-color: #bef992;" text="Send" textFill="WHITE">
          <font>
             <Font size="19.0" />
          </font></Button>
@@ -21,7 +22,7 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <TextField id="subject" fx:id="subject" layoutX="119.0" layoutY="67.0" prefHeight="31.0" prefWidth="562.0" text=" Enter the subject">
+      <TextField id="subject" fx:id="subject" layoutX="119.0" layoutY="67.0" prefHeight="31.0" prefWidth="605.0" text=" Enter the subject">
          <font>
             <Font size="13.0" />
          </font></TextField>
@@ -30,23 +31,24 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <TextArea id="messageBody" fx:id="messageBody" layoutX="14.0" layoutY="118.0" prefHeight="200.0" prefWidth="667.0" />
+      <TextArea id="messageBody" fx:id="messageBody" layoutX="14.0" layoutY="118.0" prefHeight="200.0" prefWidth="710.0" />
       <Button id="AttachmentBtn" fx:id="addAttachmentBtn" graphicTextGap="10.0" layoutX="43.0" layoutY="337.0" mnemonicParsing="false" onAction="#addAttachments" prefHeight="42.0" prefWidth="224.0" style="-fx-background-color: grey;" text="add an attachment" textFill="WHITE">
          <font>
             <Font size="19.0" />
          </font>
       </Button>
-      <Label id="warning" fx:id="warning" layoutX="30.0" layoutY="421.0" prefHeight="55.0" prefWidth="410.0">
+      <Label id="warning" fx:id="warning" layoutX="40.0" layoutY="496.0" prefHeight="55.0" prefWidth="680.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <ComboBox id="priorityBox" fx:id="priorityBox" layoutX="289.0" layoutY="366.0" prefWidth="150.0" />
       <Label layoutX="297.0" layoutY="339.0" text="Priority:" />
-      <Button id="AttachmentBtn" graphicTextGap="10.0" layoutX="252.0" layoutY="413.0" mnemonicParsing="false" onAction="#saveAsDraft" prefHeight="42.0" prefWidth="224.0" style="-fx-background-color: grey;" text="Save as a Draft" textFill="WHITE">
+      <Button id="AttachmentBtn" graphicTextGap="10.0" layoutX="450.0" layoutY="338.0" mnemonicParsing="false" onAction="#saveAsDraft" prefHeight="42.0" prefWidth="150.0" style="-fx-background-color: grey;" text="Save as a Draft" textFill="WHITE">
          <font>
             <Font size="19.0" />
          </font>
       </Button>
+      <HBox fx:id="attachmentsBar" layoutX="41.0" layoutY="399.0" prefHeight="88.0" prefWidth="689.0" />
    </children>
 </AnchorPane>

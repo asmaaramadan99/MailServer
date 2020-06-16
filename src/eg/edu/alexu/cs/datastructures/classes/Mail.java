@@ -1,5 +1,5 @@
 package eg.edu.alexu.cs.datastructures.classes;
-import eg.edu.alexu.csd.datastructure.*;
+import eg.edu.alexu.csd.datastructure.*; 
 
 import eg.edu.alexu.cs.datastructures.Interfaces.*;
 
@@ -7,7 +7,9 @@ import java.beans.Transient;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.sql.Date;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -21,7 +23,7 @@ public class Mail  implements  IMail, Serializable {
 	public Mail(){} 
 	
     public Mail(String sender, 
-    		String subject, String bodyText , String date, Integer priority,
+    		String subject, String bodyText , Date date, Integer priority,
     		SinglyLinkedList attachments){
     	
     	this.bodyText = bodyText;
@@ -104,10 +106,6 @@ public class Mail  implements  IMail, Serializable {
 	}
 	
 	public Date getDate() {
-		return Date.valueOf(basicInfo.date);
-	}
-	
-	public String getDateString() {
 		return basicInfo.date;
 	}
 	

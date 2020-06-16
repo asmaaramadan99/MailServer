@@ -18,7 +18,7 @@ public class Stack  {
         if(this.isEmpty()) throw new RuntimeException("Stack is empty, you can't peek");
         return arr.get( arr.size()-1 );
     }
-
+ 
     public void push(Object element) {
         arr.add(element);
         return;
