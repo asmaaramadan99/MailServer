@@ -1,9 +1,0 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
-
-#emailText {
-	-fx-text-fill:rgb(255,255,255);
-	
-}
-#SigninBt {
-	-fx-background-color:rgb(128,128,128);
-} 
